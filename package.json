@@ -11,7 +11,7 @@
     "format:fix": "prettier --write src --plugin=prettier-plugin-astro"
   },
   "devDependencies": {
-    "astro": "^5.16.3",
+    "astro": "^5.16.4",
     "astro-icon": "^1.1.5",
     "prettier": "^3.3.2",
     "prettier-plugin-astro": "^0.14.1"
