@@ -4,7 +4,14 @@ import Footer from "../../components/Footer.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const allPosts = await getCollection("blog");
+  // Filter posts based on environment (same logic as index page)
+  const posts = allPosts.filter((post) => {
+    if (import.meta.env.MODE === "production") {
+      return !post.slug.includes("example");
+    }
+    return !post.data.draft;
+  });
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },

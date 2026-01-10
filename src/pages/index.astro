@@ -7,12 +7,22 @@ import { fetchReposFromApi } from "../util";
 import InfoCard from "../components/InfoCard.astro";
 import Contact from "../components/Contact.astro";
 // fetch github api info of projects
-let repos =
-  import.meta.env.MODE === "development"
-    ? ((await import("../example.json")).default as Awaited<
-        ReturnType<typeof fetchReposFromApi>
-      >)
-    : await fetchReposFromApi();
+let repos: Awaited<ReturnType<typeof fetchReposFromApi>>;
+if (import.meta.env.MODE === "development") {
+  repos = (await import("../example.json")).default as Awaited<
+    ReturnType<typeof fetchReposFromApi>
+  >;
+} else {
+  // Try API, fall back to example.json if network fails (e.g., during build)
+  try {
+    repos = await fetchReposFromApi();
+  } catch (error) {
+    console.warn("Failed to fetch from GitHub API, using example data:", error);
+    repos = (await import("../example.json")).default as Awaited<
+      ReturnType<typeof fetchReposFromApi>
+    >;
+  }
+}
 ---
 
 <Layout title="Kalle Ahlström">
