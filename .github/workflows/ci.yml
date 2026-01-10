@@ -22,3 +22,5 @@ jobs:
         run: pnpm format
       - name: Build
         run: pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
