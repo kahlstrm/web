@@ -30,9 +30,6 @@ if (import.meta.env.MODE === "development") {
     <h1 class="slide-in-top">
       Welcome to <span class="text-gradient">kahlstrm.xyz</span>
     </h1>
-    <nav class="slide-in-top" style="animation-delay: 200ms;">
-      <a href="/blog">Blog</a>
-    </nav>
     <InfoCard />
     <Contact />
     <h2 class="slide-in-bottom" style="animation-delay: 300ms;">
@@ -64,32 +61,10 @@ if (import.meta.env.MODE === "development") {
   }
 
   h1 {
-    margin: 2rem 0 0.5rem 0;
-  }
-
-  nav {
-    margin-bottom: 1.5rem;
-  }
-
-  nav a {
-    color: var(--text-color);
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    background: rgba(79, 57, 250, 0.1);
-    transition: all 0.2s;
-    display: inline-block;
-  }
-
-  nav a:hover {
-    background: rgba(79, 57, 250, 0.2);
-    transform: translateY(-2px);
+    margin: 1rem 0 0.5rem 0;
   }
 
   main {
-    margin: auto;
-    padding: 1em;
-    max-width: 70ch;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
