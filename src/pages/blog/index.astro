@@ -10,11 +10,11 @@ const allPosts = await getCollection("blog");
 // Filter posts based on environment
 const posts = allPosts
   .filter((post) => {
-    // In production, hide example posts (posts with slug containing 'example')
-    if (import.meta.env.MODE === "production") {
-      return !post.slug.includes("example");
-    }
-    // In development, show all posts
+    // TEMPORARY: Show example posts in production for preview
+    // TODO: Re-enable filtering before going live
+    // if (import.meta.env.MODE === "production") {
+    //   return !post.slug.includes("example");
+    // }
     return true;
   })
   // Sort by date, newest first
