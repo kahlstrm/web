@@ -6,7 +6,7 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
-    author: z.string().default("Kalle Kahlström"),
+    author: z.string().default("kahlstrm"),
     tags: z.array(z.string()).optional(),
   }),
 });

@@ -36,7 +36,13 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
         <h1>{post.data.title}</h1>
         <div class="meta">
           <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
-          <span class="author">by {post.data.author}</span>
+          <span class="author"
+            >by <a
+              href={`https://github.com/${post.data.author}`}
+              target="_blank"
+              rel="noopener noreferrer">@{post.data.author}</a
+            ></span
+          >
         </div>
         {
           post.data.tags && post.data.tags.length > 0 && (
