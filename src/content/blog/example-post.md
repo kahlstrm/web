@@ -5,8 +5,6 @@ pubDate: 2026-01-10
 tags: ["example", "markdown", "astro"]
 ---
 
-# Welcome to the Blog
-
 This is an example blog post to demonstrate the features of this markdown-based blog system. This post will only appear in **development mode** and will be automatically hidden in production.
 
 ## Features
