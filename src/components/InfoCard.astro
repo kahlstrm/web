@@ -1,5 +1,5 @@
 ---
-import { Icon } from "astro-icon/components";
+import NitorLogo from "../icons/nitor_logo.svg?raw";
 const age = new Date().getFullYear() - 2000;
 ---
 
@@ -13,7 +13,9 @@ const age = new Date().getFullYear() - 2000;
         rel="noopener noreferrer"
         title="Nitor"
       >
-        <Icon name="nitor_logo" />
+        <span class="nitor-logo">
+          <Fragment set:html={NitorLogo} />
+        </span>
       </a>
     </li>
     <li>{age} year-old Computer Science student at Aalto University.</li>
@@ -47,9 +49,15 @@ const age = new Date().getFullYear() - 2000;
     margin-top: 0.75rem;
     margin-bottom: 0;
   }
-  [data-icon="nitor_logo"] {
-    image-rendering: pixelated;
-    font-size: 2rem;
+  .nitor-logo {
+    display: inline-block;
+    height: 2rem;
     vertical-align: -0.05rem;
+  }
+  .nitor-logo :global(svg) {
+    height: 100%;
+    width: auto;
+    display: block;
+    image-rendering: pixelated;
   }
 </style>

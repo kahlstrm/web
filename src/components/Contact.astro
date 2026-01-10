@@ -1,20 +1,23 @@
 ---
-import { Icon } from "astro-icon/components";
+import GithubIcon from "../icons/github.svg?raw";
+import LinkedinIcon from "../icons/linkedin.svg?raw";
+import TelegramIcon from "../icons/telegram.svg?raw";
+import DiscordIcon from "../icons/discord.svg?raw";
 ---
 
 <div class="socialmedia slide-in-bottom" style="animation-delay: 100ms;">
   <a href="https://github.com/kahlstrm" title="Github">
-    <Icon name="github" title="Github" width={50} height={50} />
+    <Fragment set:html={GithubIcon} />
   </a>
-  <a href="https://linkedin.com/in/kahlstrm/" title="Linkedin"
-    ><Icon name="linkedin" title="LinkedIn" width={50} height={50} /></a
-  >
-  <a href="https://t.me/kahlstrm" title="Telegram"
-    ><Icon name="telegram" title="Telegram" width={50} height={50} /></a
-  >
-  <a href="https://discord.com/users/120488156943351809" title="Discord"
-    ><Icon name="discord" title="Discord" width={50} height={50} /></a
-  >
+  <a href="https://linkedin.com/in/kahlstrm/" title="Linkedin">
+    <Fragment set:html={LinkedinIcon} />
+  </a>
+  <a href="https://t.me/kahlstrm" title="Telegram">
+    <Fragment set:html={TelegramIcon} />
+  </a>
+  <a href="https://discord.com/users/120488156943351809" title="Discord">
+    <Fragment set:html={DiscordIcon} />
+  </a>
 </div>
 <style>
   :root {
@@ -41,6 +44,12 @@ import { Icon } from "astro-icon/components";
     border-radius: 0.5rem;
     background-position: 99%;
     transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  a :global(svg) {
+    width: 2rem;
+    height: 2rem;
+    display: block;
   }
 
   a:is(:hover, :focus-within) {
