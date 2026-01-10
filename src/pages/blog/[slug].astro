@@ -36,7 +36,8 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
       <header class="slide-in-top">
         <h1>{post.data.title}</h1>
         <div class="meta">
-          <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+          <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time
+          >
           <span class="author"
             >by <a
               href={`https://github.com/${post.data.author}`}
