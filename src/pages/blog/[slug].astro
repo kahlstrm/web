@@ -10,7 +10,7 @@ export async function getStaticPaths() {
     if (import.meta.env.MODE === "production") {
       return !post.slug.includes("example");
     }
-    return !post.data.draft;
+    return true;
   });
   return posts.map((post) => ({
     params: { slug: post.slug },

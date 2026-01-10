@@ -8,7 +8,6 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     author: z.string().default("Kalle Kahlström"),
     tags: z.array(z.string()).optional(),
-    draft: z.boolean().default(false),
   }),
 });
 

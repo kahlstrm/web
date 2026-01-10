@@ -14,8 +14,8 @@ const posts = allPosts
     if (import.meta.env.MODE === "production") {
       return !post.slug.includes("example");
     }
-    // In development, show all non-draft posts
-    return !post.data.draft;
+    // In development, show all posts
+    return true;
   })
   // Sort by date, newest first
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
