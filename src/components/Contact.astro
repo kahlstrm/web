@@ -46,6 +46,12 @@ import DiscordIcon from "../icons/discord.svg?raw";
     transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  a :global(svg) {
+    width: 2rem;
+    height: 2rem;
+    display: block;
+  }
+
   a:is(:hover, :focus-within) {
     background-position: 0;
   }

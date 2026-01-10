@@ -13,7 +13,9 @@ const age = new Date().getFullYear() - 2000;
         rel="noopener noreferrer"
         title="Nitor"
       >
-        <Fragment set:html={NitorLogo} />
+        <span class="nitor-logo">
+          <Fragment set:html={NitorLogo} />
+        </span>
       </a>
     </li>
     <li>{age} year-old Computer Science student at Aalto University.</li>
@@ -47,9 +49,15 @@ const age = new Date().getFullYear() - 2000;
     margin-top: 0.75rem;
     margin-bottom: 0;
   }
-  [data-icon="nitor_logo"] {
-    image-rendering: pixelated;
-    font-size: 2rem;
+  .nitor-logo {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
     vertical-align: -0.05rem;
+  }
+  .nitor-logo :global(svg) {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
   }
 </style>
