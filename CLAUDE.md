@@ -107,9 +107,9 @@ Write your markdown content with code blocks, images, etc.
 ### Example Posts
 
 Example posts (with "example" in the slug) are:
-- Visible in development mode
-- Currently visible in production (temporary)
-- Will be hidden in production when uncommented in filtering logic
+- Visible in local development (no VERCEL_ENV set)
+- Visible in Vercel preview deployments (VERCEL_ENV=preview)
+- Hidden in production deployments (VERCEL_ENV=production)
 
 ## Project Structure
 

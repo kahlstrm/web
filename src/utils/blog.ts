@@ -2,14 +2,15 @@ import type { CollectionEntry } from "astro:content";
 
 /**
  * Filters blog posts based on environment.
- * In production, example posts (slug contains "example") are hidden.
- * In development, all posts are shown.
+ * In production (VERCEL_ENV=production), example posts are hidden.
+ * In preview/development, all posts are shown.
  */
 export function filterBlogPosts(
   posts: CollectionEntry<"blog">[],
-  mode: ImportMetaEnv["MODE"] = import.meta.env.MODE,
 ): CollectionEntry<"blog">[] {
-  if (mode === "production") {
+  // Only filter out examples on production deployments
+  const isProduction = process.env.VERCEL_ENV === "production";
+  if (isProduction) {
     return posts.filter((post) => !post.slug.includes("example"));
   }
   return posts;
@@ -32,7 +33,6 @@ export function sortPostsByDate(
  */
 export function getFilteredSortedPosts(
   posts: CollectionEntry<"blog">[],
-  mode?: ImportMetaEnv["MODE"],
 ): CollectionEntry<"blog">[] {
-  return sortPostsByDate(filterBlogPosts(posts, mode));
+  return sortPostsByDate(filterBlogPosts(posts));
 }
