@@ -21,9 +21,6 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const fullImageUrl = new URL(image, Astro.site);
-
-// Prevent indexing on preview/non-production deployments
-const isProduction = Astro.site?.toString().includes("kahlstrm.xyz");
 ---
 
 <!doctype html>
@@ -32,7 +29,6 @@ const isProduction = Astro.site?.toString().includes("kahlstrm.xyz");
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
-    {!isProduction && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
     <title>{title}</title>
