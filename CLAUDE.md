@@ -42,24 +42,26 @@ After pushing to the remote branch, a Vercel preview deployment is automatically
 
 **Preview URL Pattern:**
 ```
-https://kalski-j4thmaxlc-kqlskis-projects.vercel.app/
+https://kalski-<DEPLOYMENT_HASH>-kqlskis-projects.vercel.app/
 ```
+
+The deployment hash (e.g., `j4thmaxlc`) changes with each deployment. Check the GitHub PR comments or Vercel dashboard for the current preview URL.
 
 **Post-Push Verification:**
 
 Wait 10-15 seconds after `git push` for the deployment to complete, then verify:
 
 ```bash
-# Check the preview URL in your browser or with curl:
+# Check the preview URL in your browser:
 # 1. Homepage loads correctly
-#    https://kalski-j4thmaxlc-kqlskis-projects.vercel.app/
+#    https://kalski-<HASH>-kqlskis-projects.vercel.app/
 
 # 2. Blog index page shows all posts
-#    https://kalski-j4thmaxlc-kqlskis-projects.vercel.app/blog
+#    https://kalski-<HASH>-kqlskis-projects.vercel.app/blog
 
 # 3. Individual blog posts render properly
-#    https://kalski-j4thmaxlc-kqlskis-projects.vercel.app/blog/example-post
-#    https://kalski-j4thmaxlc-kqlskis-projects.vercel.app/blog/example-with-assets
+#    https://kalski-<HASH>-kqlskis-projects.vercel.app/blog/example-post
+#    https://kalski-<HASH>-kqlskis-projects.vercel.app/blog/example-with-assets
 
 # 4. Check browser console for any errors
 ```
