@@ -7,13 +7,7 @@ import { getFilteredSortedPosts } from "../../utils/blog";
 
 // Fetch all blog posts
 const allPosts = await getCollection("blog");
-
-// TEMPORARY: Show example posts in production for preview
-// TODO: Re-enable filtering before going live
-// const posts = getFilteredSortedPosts(allPosts);
-const posts = allPosts.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const posts = getFilteredSortedPosts(allPosts);
 ---
 
 <Layout title="Blog - Kalle Ahlström">

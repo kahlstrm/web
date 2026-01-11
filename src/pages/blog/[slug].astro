@@ -6,10 +6,7 @@ import { filterBlogPosts } from "../../utils/blog";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
-  // TEMPORARY: Show example posts in production for preview
-  // TODO: Re-enable filtering before going live
-  // const posts = filterBlogPosts(allPosts);
-  const posts = allPosts;
+  const posts = filterBlogPosts(allPosts);
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
