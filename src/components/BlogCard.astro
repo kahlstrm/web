@@ -4,10 +4,9 @@ export interface Props {
   description: string;
   pubDate: Date;
   slug: string;
-  tags?: string[];
   index: number;
 }
-const { title, description, pubDate, slug, tags, index } = Astro.props as Props;
+const { title, description, pubDate, slug, index } = Astro.props as Props;
 
 const formattedDate = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
@@ -30,15 +29,6 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
     </p>
     <div class="meta">
       <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-      {
-        tags && tags.length > 0 && (
-          <span class="tags">
-            {tags.map((tag) => (
-              <span class="tag">#{tag}</span>
-            ))}
-          </span>
-        )
-      }
     </div>
   </a>
 </li>
@@ -98,16 +88,6 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
 
   time {
     font-style: italic;
-  }
-
-  .tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    opacity: 0.7;
   }
 
   h2 span {

@@ -2,7 +2,6 @@
 title: "Welcome to the Blog"
 description: "An example post demonstrating markdown, code highlighting, and images. Only visible in development mode."
 pubDate: 2026-01-10
-tags: ["example", "markdown", "astro"]
 ---
 
 This is an example blog post to demonstrate the features of this markdown-based blog system. This post will only appear in **development mode** and will be automatically hidden in production.

@@ -114,7 +114,6 @@ title: "Post Title"
 description: "Brief description for preview"
 pubDate: 2026-01-10
 author: kahlstrm        # Optional, defaults to "kahlstrm"
-tags: ["tag1", "tag2"]  # Optional (tags are visual only, not clickable)
 ---
 
 # Your Content Here
@@ -186,7 +185,6 @@ Defined in `src/content/config.ts`:
 - `description` (string, required)
 - `pubDate` (date, required)
 - `author` (string, defaults to "kahlstrm")
-- `tags` (string[], optional)
 
 ## Troubleshooting
 

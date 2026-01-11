@@ -45,15 +45,6 @@ const sourceUrl = `https://github.com/kahlstrm/kalski-web/blob/main/src/content/
             ></span
           >
         </div>
-        {
-          post.data.tags && post.data.tags.length > 0 && (
-            <div class="tags">
-              {post.data.tags.map((tag) => (
-                <span class="tag">#{tag}</span>
-              ))}
-            </div>
-          )
-        }
       </header>
 
       <div class="content slide-in-bottom" style="animation-delay: 200ms;">
@@ -94,26 +85,10 @@ const sourceUrl = `https://github.com/kahlstrm/kalski-web/blob/main/src/content/
     flex-wrap: wrap;
     font-size: 0.95rem;
     opacity: 0.8;
-    margin-bottom: 0.75rem;
   }
 
   time {
     font-style: italic;
-  }
-
-  .tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-top: 0.5rem;
-  }
-
-  .tag {
-    background: rgba(79, 57, 250, 0.1);
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.875rem;
-    color: #4f39fa;
   }
 
   .content {

@@ -2,7 +2,6 @@
 title: "Blog Post with Assets"
 description: "Example of a directory-based blog post with images and other assets"
 pubDate: 2026-01-11
-tags: ["example", "assets"]
 ---
 
 This is an example of a **directory-based blog post**. The markdown file is located at `example-with-assets/index.md`, which allows you to keep images and other assets in the same directory.
