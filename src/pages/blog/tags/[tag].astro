@@ -1,0 +1,100 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../../layouts/Layout.astro";
+import BlogCard from "../../../components/BlogCard.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+
+  // Filter example posts in production
+  const filteredPosts =
+    import.meta.env.MODE === "production"
+      ? posts.filter((post) => !post.slug.includes("example"))
+      : posts;
+
+  // Get all unique tags
+  const allTags = new Set<string>();
+  filteredPosts.forEach((post) => {
+    post.data.tags?.forEach((tag) => allTags.add(tag));
+  });
+
+  // Create a path for each tag
+  return Array.from(allTags).map((tag) => ({
+    params: { tag },
+    props: {
+      posts: filteredPosts
+        .filter((post) => post.data.tags?.includes(tag))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }));
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<Layout title={`Posts tagged "${tag}" - Kalle Ahlström`}>
+  <main>
+    <h1>Posts tagged <span class="tag-highlight">#{tag}</span></h1>
+    <p class="subtitle">
+      {posts.length}
+      {posts.length === 1 ? "post" : "posts"} found
+    </p>
+
+    <div class="blog-grid">
+      {
+        posts.map((post, index) => (
+          <BlogCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            slug={post.slug}
+            tags={post.data.tags}
+            index={index}
+          />
+        ))
+      }
+    </div>
+
+    <a href="/blog" class="back-link">← Back to all posts</a>
+  </main>
+</Layout>
+
+<style>
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .tag-highlight {
+    color: #58a6ff;
+  }
+
+  .subtitle {
+    color: gray;
+    margin-bottom: 2rem;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .back-link {
+    color: #58a6ff;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1rem;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>
