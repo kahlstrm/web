@@ -48,9 +48,7 @@ const sourceUrl = `https://github.com/kahlstrm/kalski-web/blob/main/src/content/
           post.data.tags && post.data.tags.length > 0 && (
             <div class="tags">
               {post.data.tags.map((tag) => (
-                <a href={`/blog/tags/${tag}`} class="tag">
-                  #{tag}
-                </a>
+                <span class="tag">#{tag}</span>
               ))}
             </div>
           )
@@ -108,16 +106,6 @@ const sourceUrl = `https://github.com/kahlstrm/kalski-web/blob/main/src/content/
     border-radius: 1rem;
     font-size: 0.875rem;
     color: #4f39fa;
-    text-decoration: none;
-    transition:
-      background 0.2s,
-      transform 0.2s;
-    display: inline-block;
-  }
-
-  .tag:hover {
-    background: rgba(79, 57, 250, 0.2);
-    transform: translateY(-1px);
   }
 
   .content {
