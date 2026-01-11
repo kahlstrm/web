@@ -18,6 +18,8 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
       - name: Format check
         run: pnpm format
       - name: Type check

@@ -90,6 +90,7 @@ src/
 - **Zero runtime dependencies** - Uses Astro's built-in features
 - **Type-safe** - Zod schema validation for blog posts
 - **Syntax highlighting** - GitHub Dark theme, 100+ languages
+- **Mermaid diagrams** - Build-time SVG rendering (requires Playwright)
 - **Git-based workflow** - Branches are drafts, main is published
 - **Offline builds** - Falls back to example.json when API unavailable
 
@@ -124,3 +125,13 @@ Run `pnpm format:fix` to auto-format all files.
 ### Type Check Warnings
 
 Minor warnings (unused variables, implicit any) are non-critical and can be ignored if they don't affect functionality.
+
+### Mermaid Diagrams Not Rendering
+
+Mermaid diagrams require Playwright's Chromium browser to render at build time. If you see errors about missing Playwright:
+
+```bash
+npx playwright install chromium
+```
+
+**Note:** Local builds may fail if network restrictions prevent Playwright downloads. This is expected - the CI/CD pipeline (GitHub Actions, Vercel) will install Playwright automatically and diagrams will render correctly in production.
