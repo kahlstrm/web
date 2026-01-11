@@ -36,6 +36,36 @@ The CI automatically runs:
 
 All checks must pass for PRs to be merged.
 
+### Vercel Preview Deployments
+
+After pushing to the remote branch, a Vercel preview deployment is automatically created.
+
+**Preview URL Pattern:**
+```
+https://kalski-j4thmaxlc-kqlskis-projects.vercel.app/
+```
+
+**Post-Push Verification:**
+
+Wait 10-15 seconds after `git push` for the deployment to complete, then verify:
+
+```bash
+# Check the preview URL in your browser or with curl:
+# 1. Homepage loads correctly
+#    https://kalski-j4thmaxlc-kqlskis-projects.vercel.app/
+
+# 2. Blog index page shows all posts
+#    https://kalski-j4thmaxlc-kqlskis-projects.vercel.app/blog
+
+# 3. Individual blog posts render properly
+#    https://kalski-j4thmaxlc-kqlskis-projects.vercel.app/blog/example-post
+#    https://kalski-j4thmaxlc-kqlskis-projects.vercel.app/blog/example-with-assets
+
+# 4. Check browser console for any errors
+```
+
+If the preview doesn't update after 15 seconds, check the Vercel deployment logs in the GitHub PR.
+
 ## Blog System
 
 ### Adding a New Blog Post
