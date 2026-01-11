@@ -9,11 +9,11 @@ export async function getStaticPaths() {
   const posts = filterBlogPosts(allPosts);
   return posts.map((post) => ({
     params: { slug: post.slug },
-    props: { post },
+    props: { post, showBlog: posts.length > 0 },
   }));
 }
 
-const { post } = Astro.props;
+const { post, showBlog } = Astro.props;
 const { Content } = await post.render();
 
 const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -47,6 +47,7 @@ const structuredData = {
   type="article"
   publishedTime={post.data.pubDate.toISOString()}
   author={post.data.author}
+  showBlog={showBlog}
 >
   <main>
     <article>

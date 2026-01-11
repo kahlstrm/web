@@ -8,9 +8,10 @@ import { getFilteredSortedPosts } from "../../utils/blog";
 // Fetch all blog posts
 const allPosts = await getCollection("blog");
 const posts = getFilteredSortedPosts(allPosts);
+const showBlog = posts.length > 0;
 ---
 
-<Layout title="Blog - Kalle Ahlström">
+<Layout title="Blog - Kalle Ahlström" showBlog={showBlog}>
   <main>
     <h1 class="slide-in-top">
       <span class="text-gradient">Blog</span>

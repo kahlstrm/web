@@ -8,6 +8,7 @@ export interface Props {
   type?: "website" | "article";
   publishedTime?: string;
   author?: string;
+  showBlog?: boolean;
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   type = "website",
   publishedTime,
   author = "kahlstrm",
+  showBlog = true,
 } = Astro.props as Props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -57,7 +59,7 @@ const fullImageUrl = new URL(image, Astro.site);
 
   <body>
     <div class="container">
-      <Navigation />
+      <Navigation showBlog={showBlog} />
       <slot />
     </div>
   </body>
