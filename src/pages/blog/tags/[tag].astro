@@ -4,29 +4,38 @@ import Layout from "../../../layouts/Layout.astro";
 import BlogCard from "../../../components/BlogCard.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const allPosts = await getCollection("blog");
 
-  // Filter example posts in production
-  const filteredPosts =
-    import.meta.env.MODE === "production"
-      ? posts.filter((post) => !post.slug.includes("example"))
-      : posts;
-
-  // Get all unique tags
+  // Get all unique tags from ALL posts (including examples)
+  // This ensures tag pages exist even for example post tags
   const allTags = new Set<string>();
-  filteredPosts.forEach((post) => {
+  allPosts.forEach((post) => {
     post.data.tags?.forEach((tag) => allTags.add(tag));
   });
 
   // Create a path for each tag
-  return Array.from(allTags).map((tag) => ({
-    params: { tag },
-    props: {
-      posts: filteredPosts
-        .filter((post) => post.data.tags?.includes(tag))
-        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
-    },
-  }));
+  return Array.from(allTags).map((tag) => {
+    // Filter posts for this tag based on environment
+    const tagPosts = allPosts
+      .filter((post) => {
+        // Must have this tag
+        if (!post.data.tags?.includes(tag)) return false;
+        // In production, filter out example posts
+        if (
+          import.meta.env.MODE === "production" &&
+          post.slug.includes("example")
+        ) {
+          return false;
+        }
+        return true;
+      })
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+    return {
+      params: { tag },
+      props: { posts: tagPosts },
+    };
+  });
 }
 
 const { tag } = Astro.params;
