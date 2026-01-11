@@ -38,43 +38,19 @@ All checks must pass for PRs to be merged.
 
 ### Vercel Preview Deployments
 
-After pushing to the remote branch, Vercel automatically creates two types of preview URLs:
+After pushing to the remote branch, Vercel automatically creates preview deployments.
 
-**1. Branch URL (Stable - Recommended for Testing):**
-```
-https://kalski-web-git-<truncated-branch>-<hash>-kqlskis-projects.vercel.app/
-```
-- Always shows the latest commit on the branch
-- URL **is stable** - doesn't change when you push new commits
-- **Best for ongoing verification and sharing**
-- Access via "Visit Preview" button in PR comments
-- **Once retrieved, bookmark it** - you can reuse the same URL for all commits on this branch
+**Getting the Preview URL:**
 
-Example for this branch (`claude/plan-markdown-blog-system-RfRxc`):
-```
-https://kalski-web-git-claude-plan-markdown-blo-e64bdf-kqlskis-projects.vercel.app/
-```
-
-**2. Commit URL (Specific Version):**
-```
-https://kalski-<unique-hash>-kqlskis-projects.vercel.app/
-```
-- Shows a specific commit (hash changes per commit)
-- Useful for comparing specific versions
-- Access via "View deployment" button in PR comments
-
-**Getting the Preview URL Automatically:**
-
-Run this script to fetch the current preview URL from GitHub:
 ```bash
 ./scripts/get-preview-url.sh
 ```
 
-This queries the GitHub API for the latest deployment and displays quick links for testing.
+This script fetches the preview URL from GitHub API and displays quick links for testing.
 
 **Post-Push Verification:**
 
-Wait 10-15 seconds after `git push` for the deployment to complete, then verify using the **branch URL**:
+Wait 10-15 seconds after `git push` for the deployment to complete, then verify:
 
 1. **Homepage loads correctly** - Navigate to the root URL
 2. **Blog index page shows all posts** - Navigate to `/blog`
