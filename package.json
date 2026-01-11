@@ -14,11 +14,8 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
     "astro": "^5.16.8",
-    "playwright": "^1.57.0",
-    "playwright-chromium": "^1.57.0",
     "prettier": "^3.7.4",
     "prettier-plugin-astro": "^0.14.1",
-    "rehype-mermaid": "^3.0.0",
     "typescript": "^5.9.3"
   }
 }

@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import rehypeMermaid from "rehype-mermaid";
 
 // https://astro.build/config
 export default defineConfig({
@@ -7,12 +6,9 @@ export default defineConfig({
     inlineStylesheets: "always",
   },
   markdown: {
-    syntaxHighlight: {
-      type: "shiki",
+    shikiConfig: {
       theme: "github-dark",
       wrap: true,
-      excludeLangs: ["mermaid"],
     },
-    rehypePlugins: [[rehypeMermaid, { strategy: "img-svg" }]],
   },
 });
