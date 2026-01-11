@@ -16,20 +16,12 @@ const showBlog = posts.length > 0;
 
 // fetch github api info of projects
 let repos: Awaited<ReturnType<typeof fetchReposFromApi>>;
-if (import.meta.env.MODE === "development") {
+if (import.meta.env.PUBLIC_USE_GITHUB_API === "false") {
   repos = (await import("../example.json")).default as Awaited<
     ReturnType<typeof fetchReposFromApi>
   >;
 } else {
-  // Try API, fall back to example.json if network fails (e.g., during build)
-  try {
-    repos = await fetchReposFromApi();
-  } catch (error) {
-    console.warn("Failed to fetch from GitHub API, using example data:", error);
-    repos = (await import("../example.json")).default as Awaited<
-      ReturnType<typeof fetchReposFromApi>
-    >;
-  }
+  repos = await fetchReposFromApi();
 }
 ---
 
