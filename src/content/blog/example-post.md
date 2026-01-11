@@ -13,6 +13,7 @@ This blog system supports:
 
 - ✅ Markdown formatting
 - ✅ Syntax highlighting for code
+- ✅ Mermaid diagrams (rendered to SVG at build time)
 - ✅ Images with automatic optimization
 - ✅ Tags and metadata
 - ✅ Dev/production filtering
@@ -56,6 +57,38 @@ def fibonacci(n: int) -> int:
 # Print first 10 Fibonacci numbers
 for i in range(10):
     print(f"F({i}) = {fibonacci(i)}")
+```
+
+## Diagrams with Mermaid
+
+Create diagrams using Mermaid syntax (rendered to SVG at build time):
+
+```mermaid
+graph TD
+    A[Write Blog Post] --> B{Format Check}
+    B -->|Pass| C[Type Check]
+    B -->|Fail| D[Fix Formatting]
+    D --> B
+    C -->|Pass| E[Build]
+    C -->|Fail| F[Fix Types]
+    F --> C
+    E --> G[Commit & Push]
+    G --> H[CI Pipeline]
+    H --> I[Deploy]
+```
+
+Sequence diagrams work too:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Blog
+    participant GitHub
+    User->>Blog: Write post
+    User->>GitHub: Commit markdown
+    GitHub->>Blog: Trigger build
+    Blog->>Blog: Render to static HTML
+    Blog->>User: Post published
 ```
 
 ## Markdown Formatting
