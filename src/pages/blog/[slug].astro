@@ -28,6 +28,8 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
   month: "long",
   day: "numeric",
 }).format(post.data.pubDate);
+
+const sourceUrl = `https://github.com/kahlstrm/kalski-web/blob/main/src/content/blog/${post.slug}.md`;
 ---
 
 <Layout title={`${post.data.title} - Kalle Ahlström`}>
@@ -62,7 +64,7 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
       </div>
     </article>
   </main>
-  <Footer />
+  <Footer sourceUrl={sourceUrl} />
 </Layout>
 
 <style>

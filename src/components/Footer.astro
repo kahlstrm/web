@@ -1,9 +1,14 @@
+---
+export interface Props {
+  sourceUrl?: string;
+}
+
+const { sourceUrl = "https://github.com/kahlstrm/kalski-web" } =
+  Astro.props as Props;
+---
+
 <div class="footer slide-in-bottom">
-  <a
-    href="https://github.com/kahlstrm/kalski-web"
-    target="_blank"
-    rel="noopener noreferrer">Source</a
-  >
+  <a href={sourceUrl} target="_blank" rel="noopener noreferrer">Source</a>
 </div>
 
 <style>
