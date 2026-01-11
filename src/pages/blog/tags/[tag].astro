@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
 import BlogCard from "../../../components/BlogCard.astro";
+import { sortPostsByDate, filterBlogPosts } from "../../../utils/blog";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
@@ -15,21 +16,11 @@ export async function getStaticPaths() {
 
   // Create a path for each tag
   return Array.from(allTags).map((tag) => {
-    // Filter posts for this tag based on environment
-    const tagPosts = allPosts
-      .filter((post) => {
-        // Must have this tag
-        if (!post.data.tags?.includes(tag)) return false;
-        // In production, filter out example posts
-        if (
-          import.meta.env.MODE === "production" &&
-          post.slug.includes("example")
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    // Get posts with this tag and filter based on environment
+    const postsWithTag = allPosts.filter((post) =>
+      post.data.tags?.includes(tag),
+    );
+    const tagPosts = sortPostsByDate(filterBlogPosts(postsWithTag));
 
     return {
       params: { tag },
