@@ -6,16 +6,29 @@ import Footer from "../components/Footer.astro";
 import { fetchReposFromApi } from "../util";
 import InfoCard from "../components/InfoCard.astro";
 import Contact from "../components/Contact.astro";
+import { getCollection } from "astro:content";
+import { filterBlogPosts } from "../utils/blog";
+
+// Check if blog posts exist
+const allPosts = await getCollection("blog");
+const posts = filterBlogPosts(allPosts);
+const showBlog = posts.length > 0;
+
 // fetch github api info of projects
-let repos =
-  import.meta.env.MODE === "development"
-    ? ((await import("../example.json")).default as Awaited<
-        ReturnType<typeof fetchReposFromApi>
-      >)
-    : await fetchReposFromApi();
+let repos: Awaited<ReturnType<typeof fetchReposFromApi>>;
+if (
+  import.meta.env.MODE === "development" ||
+  import.meta.env.PUBLIC_SKIP_GITHUB_API === "true"
+) {
+  repos = (await import("../example.json")).default as Awaited<
+    ReturnType<typeof fetchReposFromApi>
+  >;
+} else {
+  repos = await fetchReposFromApi();
+}
 ---
 
-<Layout title="Kalle Ahlström">
+<Layout title="Kalle Ahlström" showBlog={showBlog}>
   <main>
     <h1 class="slide-in-top">
       Welcome to <span class="text-gradient">kahlstrm.xyz</span>
@@ -42,7 +55,7 @@ let repos =
   <div class="bb8-container">
     <BB8 />
   </div>
-  <Footer />
+  <Footer slot="footer" />
 </Layout>
 
 <style>
@@ -51,13 +64,10 @@ let repos =
   }
 
   h1 {
-    margin: 2rem 0;
+    margin: 1rem 0 0.5rem 0;
   }
 
   main {
-    margin: auto;
-    padding: 1em;
-    max-width: 70ch;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -65,6 +75,12 @@ let repos =
 
   .bb8-container {
     overflow-x: hidden;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
   }
 
   .text-gradient {

@@ -1,0 +1,100 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BlogCard from "../../components/BlogCard.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+import { getFilteredSortedPosts } from "../../utils/blog";
+
+// Fetch all blog posts
+const allPosts = await getCollection("blog");
+const posts = getFilteredSortedPosts(allPosts);
+const showBlog = posts.length > 0;
+---
+
+<Layout title="Blog - Kalle Ahlström" showBlog={showBlog}>
+  <main>
+    <h1 class="slide-in-top">
+      <span class="text-gradient">Blog</span>
+    </h1>
+    <p class="intro slide-in-bottom" style="animation-delay: 200ms;">
+      Short texts, notes, and thoughts.
+    </p>
+
+    {
+      posts.length === 0 ? (
+        <p class="no-posts">No blog posts yet. Check back soon!</p>
+      ) : (
+        <ul role="list" class="blog-card-grid">
+          {posts.map((post, i) => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              slug={post.slug}
+              index={i}
+            />
+          ))}
+        </ul>
+      )
+    }
+  </main>
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+  :root {
+    --astro-gradient: linear-gradient(0deg, #4f39fa, #da62c4);
+  }
+
+  h1 {
+    margin: 1rem 0 0.5rem 0;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .text-gradient {
+    font-weight: 900;
+    background-image: var(--astro-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 100% 200%;
+    background-position-y: 100%;
+    border-radius: 0.4rem;
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      background-position-y: 0%;
+    }
+
+    50% {
+      background-position-y: 80%;
+    }
+  }
+
+  .intro {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+
+  .blog-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .no-posts {
+    text-align: center;
+    padding: 2rem;
+    opacity: 0.7;
+    font-style: italic;
+  }
+</style>

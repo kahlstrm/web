@@ -1,20 +1,25 @@
-<div class="footer">
-  <a
-    href="https://github.com/kahlstrm/kalski-web"
-    target="_blank"
-    rel="noopener noreferrer">Source</a
-  >
+---
+export interface Props {
+  sourceUrl?: string;
+}
+
+const { sourceUrl = "https://github.com/kahlstrm/web" } = Astro.props as Props;
+---
+
+<div class="footer slide-in-bottom">
+  <a href={sourceUrl} target="_blank" rel="noopener noreferrer">Source</a>
 </div>
 
 <style>
   .footer {
     color: gray;
-    bottom: 0.2rem;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
+    margin-top: auto;
+    padding: 0.5rem 0;
   }
 
   a {

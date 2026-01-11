@@ -1,0 +1,51 @@
+---
+export interface Props {
+  showBlog?: boolean;
+}
+
+const { showBlog = true } = Astro.props as Props;
+const currentPath = Astro.url.pathname;
+const isHome = currentPath === "/";
+const isBlog = currentPath.startsWith("/blog");
+---
+
+<nav class="main-nav slide-in-top">
+  <a href="/" class:list={["nav-link", { active: isHome }]}>Home</a>
+  {
+    showBlog && (
+      <a href="/blog" class:list={["nav-link", { active: isBlog }]}>
+        Blog
+      </a>
+    )
+  }
+</nav>
+
+<style>
+  .main-nav {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .nav-link {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background: rgba(79, 57, 250, 0.1);
+    transition: all 0.2s;
+    display: inline-block;
+    opacity: 0.7;
+  }
+
+  .nav-link:hover {
+    background: rgba(79, 57, 250, 0.2);
+    opacity: 1;
+  }
+
+  .nav-link.active {
+    background: rgba(79, 57, 250, 0.2);
+    opacity: 1;
+    font-weight: 500;
+  }
+</style>

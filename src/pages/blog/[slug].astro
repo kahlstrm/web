@@ -1,0 +1,208 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+import { filterBlogPosts } from "../../utils/blog";
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("blog");
+  const posts = filterBlogPosts(allPosts);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post, showBlog: posts.length > 0 },
+  }));
+}
+
+const { post, showBlog } = Astro.props;
+const { Content } = await post.render();
+
+const formattedDate = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}).format(post.data.pubDate);
+
+// Use post.id which contains the full path (e.g., "example-post.md" or "example-with-assets/index.md")
+const sourceUrl = `https://github.com/kahlstrm/web/blob/main/src/content/blog/${post.id}`;
+
+// Structured data for SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  author: {
+    "@type": "Person",
+    name: post.data.author,
+    url: `https://github.com/${post.data.author}`,
+  },
+  datePublished: post.data.pubDate.toISOString(),
+  url: `https://kahlstrm.xyz/blog/${post.slug}`,
+};
+---
+
+<Layout
+  title={`${post.data.title} - Kalle Ahlström`}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate.toISOString()}
+  author={post.data.author}
+  showBlog={showBlog}
+>
+  <main>
+    <article>
+      <header class="slide-in-top">
+        <h1>{post.data.title}</h1>
+        <div class="meta">
+          <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time
+          >
+          <span class="author"
+            >by <a
+              href={`https://github.com/${post.data.author}`}
+              target="_blank"
+              rel="noopener noreferrer">@{post.data.author}</a
+            ></span
+          >
+        </div>
+      </header>
+
+      <div class="content slide-in-bottom" style="animation-delay: 200ms;">
+        <Content />
+      </div>
+    </article>
+
+    <!-- Structured Data for SEO -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
+  </main>
+  <Footer slot="footer" sourceUrl={sourceUrl} />
+</Layout>
+
+<style>
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  article {
+    padding: 1rem 0;
+    flex: 1;
+  }
+
+  header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  h1 {
+    margin: 0 0 1rem 0;
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+
+  .meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+    opacity: 0.8;
+  }
+
+  time {
+    font-style: italic;
+  }
+
+  .content {
+    line-height: 1.8;
+  }
+
+  /* Markdown content styles */
+  .content :global(h2) {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+
+  .content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.4rem;
+  }
+
+  .content :global(p) {
+    margin-bottom: 1.25rem;
+  }
+
+  .content :global(ul),
+  .content :global(ol) {
+    margin-bottom: 1.25rem;
+    padding-left: 2rem;
+  }
+
+  .content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .content :global(a) {
+    color: #4f39fa;
+    text-decoration: underline;
+    transition: opacity 0.2s;
+  }
+
+  .content :global(a:hover) {
+    opacity: 0.7;
+  }
+
+  .content :global(code) {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.9em;
+    padding: 0.2em 0.4em;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+  }
+
+  .content :global(pre) {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+
+  .content :global(pre code) {
+    background: none;
+    padding: 0;
+    font-size: 0.875rem;
+  }
+
+  .content :global(blockquote) {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+    border-left: 4px solid #4f39fa;
+    font-style: italic;
+    opacity: 0.9;
+  }
+
+  .content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .content :global(hr) {
+    margin: 2rem 0;
+    border: none;
+    border-top: 2px solid var(--color-border);
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 2rem;
+    }
+  }
+</style>
