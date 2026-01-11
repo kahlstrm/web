@@ -40,31 +40,27 @@ All checks must pass for PRs to be merged.
 
 After pushing to the remote branch, a Vercel preview deployment is automatically created.
 
+**Finding the Preview URL:**
+
+The deployment hash changes with each push. To find the current preview URL:
+1. Check GitHub PR comments (Vercel bot posts the URL)
+2. Or check the Vercel dashboard
+
 **Preview URL Pattern:**
 ```
 https://kalski-<DEPLOYMENT_HASH>-kqlskis-projects.vercel.app/
 ```
 
-The deployment hash (e.g., `j4thmaxlc`) changes with each deployment. Check the GitHub PR comments or Vercel dashboard for the current preview URL.
-
 **Post-Push Verification:**
 
-Wait 10-15 seconds after `git push` for the deployment to complete, then verify:
+Wait 10-15 seconds after `git push` for the deployment to complete, then verify using the preview URL from GitHub/Vercel:
 
-```bash
-# Check the preview URL in your browser:
-# 1. Homepage loads correctly
-#    https://kalski-<HASH>-kqlskis-projects.vercel.app/
-
-# 2. Blog index page shows all posts
-#    https://kalski-<HASH>-kqlskis-projects.vercel.app/blog
-
-# 3. Individual blog posts render properly
-#    https://kalski-<HASH>-kqlskis-projects.vercel.app/blog/example-post
-#    https://kalski-<HASH>-kqlskis-projects.vercel.app/blog/example-with-assets
-
-# 4. Check browser console for any errors
-```
+1. **Homepage loads correctly** - Navigate to the root URL
+2. **Blog index page shows all posts** - Navigate to `/blog`
+3. **Individual blog posts render properly** - Test:
+   - `/blog/example-post` (simple format)
+   - `/blog/example-with-assets` (directory format)
+4. **Check browser console for errors** - Open DevTools console
 
 If the preview doesn't update after 15 seconds, check the Vercel deployment logs in the GitHub PR.
 
