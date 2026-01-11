@@ -42,12 +42,18 @@ After pushing to the remote branch, Vercel automatically creates two types of pr
 
 **1. Branch URL (Stable - Recommended for Testing):**
 ```
-https://kalski-git-<branch-name>-kqlskis-projects.vercel.app/
+https://kalski-web-git-<truncated-branch>-<hash>-kqlskis-projects.vercel.app/
 ```
 - Always shows the latest commit on the branch
-- URL doesn't change when you push new commits
+- URL **is stable** - doesn't change when you push new commits
 - **Best for ongoing verification and sharing**
 - Access via "Visit Preview" button in PR comments
+- **Once retrieved, bookmark it** - you can reuse the same URL for all commits on this branch
+
+Example for this branch (`claude/plan-markdown-blog-system-RfRxc`):
+```
+https://kalski-web-git-claude-plan-markdown-blo-e64bdf-kqlskis-projects.vercel.app/
+```
 
 **2. Commit URL (Specific Version):**
 ```
