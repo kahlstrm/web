@@ -10,7 +10,7 @@ COMMIT_SHA=$(git rev-parse HEAD)
 echo "Fetching preview URL for commit $COMMIT_SHA..."
 
 PREVIEW_URL=$(curl -sL "https://api.github.com/repos/kahlstrm/web/commits/$COMMIT_SHA/check-runs" \
-  | grep -o 'web-git-[^?]*' \
+  | grep -o 'kalski-web-git-[^?]*' \
   | head -1)
 
 if [ -z "$PREVIEW_URL" ]; then
