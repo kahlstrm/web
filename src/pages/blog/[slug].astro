@@ -27,9 +27,30 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
 
 // Use post.id which contains the full path (e.g., "example-post.md" or "example-with-assets/index.md")
 const sourceUrl = `https://github.com/kahlstrm/kalski-web/blob/main/src/content/blog/${post.id}`;
+
+// Structured data for SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  author: {
+    "@type": "Person",
+    name: post.data.author,
+    url: `https://github.com/${post.data.author}`,
+  },
+  datePublished: post.data.pubDate.toISOString(),
+  url: `https://kahlstrm.xyz/blog/${post.slug}`,
+};
 ---
 
-<Layout title={`${post.data.title} - Kalle Ahlström`}>
+<Layout
+  title={`${post.data.title} - Kalle Ahlström`}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate.toISOString()}
+  author={post.data.author}
+>
   <main>
     <article>
       <header class="slide-in-top">
@@ -51,6 +72,12 @@ const sourceUrl = `https://github.com/kahlstrm/kalski-web/blob/main/src/content/
         <Content />
       </div>
     </article>
+
+    <!-- Structured Data for SEO -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
   </main>
   <Footer sourceUrl={sourceUrl} />
 </Layout>
