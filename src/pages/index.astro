@@ -16,7 +16,10 @@ const showBlog = posts.length > 0;
 
 // fetch github api info of projects
 let repos: Awaited<ReturnType<typeof fetchReposFromApi>>;
-if (import.meta.env.PUBLIC_USE_GITHUB_API === "false") {
+if (
+  import.meta.env.MODE === "development" ||
+  import.meta.env.PUBLIC_SKIP_GITHUB_API === "true"
+) {
   repos = (await import("../example.json")).default as Awaited<
     ReturnType<typeof fetchReposFromApi>
   >;

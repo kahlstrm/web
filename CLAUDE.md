@@ -17,7 +17,9 @@ pnpm format:fix    # Auto-fix formatting issues
 pnpm typecheck     # Run Astro type checking
 
 # 3. Build verification
-pnpm build         # Ensure production build works
+pnpm build:offline # Build without GitHub API (for CI/offline)
+# or
+pnpm build         # Build with GitHub API (production)
 ```
 
 ### Development Server
@@ -162,11 +164,19 @@ Defined in `src/content/config.ts`:
 - `pubDate` (date, required)
 - `author` (string, defaults to "kahlstrm")
 
+## GitHub API Data Fetching
+
+The homepage fetches repository data from GitHub API to display project cards.
+
+**Development mode**: Uses `example.json` (no API calls)
+**Production build**: Uses GitHub API (live data)
+**Offline build**: Use `pnpm build:offline` or set `PUBLIC_SKIP_GITHUB_API=true` to use `example.json`
+
 ## Troubleshooting
 
 ### Build Fails with Network Error
 
-The build automatically falls back to `example.json` if GitHub API is unavailable. This is expected behavior in CI/offline environments.
+If the build fails due to GitHub API being unavailable, use `pnpm build:offline` instead of `pnpm build`.
 
 ### Format Check Fails
 
