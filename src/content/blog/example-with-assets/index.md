@@ -27,7 +27,7 @@ src/content/blog/
 
 With directory-based posts, you can easily include images using relative paths:
 
-![Pixel Art Character](./kalski.png)
+![Example image](./kalski.png)
 
 Just place your images in the same directory as `index.md` and reference them with `./filename.png`.
 
