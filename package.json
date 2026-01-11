@@ -1,5 +1,5 @@
 {
-  "name": "kalski-web",
+  "name": "web",
   "private": true,
   "scripts": {
     "dev": "astro dev",
