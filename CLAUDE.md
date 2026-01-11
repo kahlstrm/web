@@ -63,6 +63,15 @@ https://kalski-<unique-hash>-kqlskis-projects.vercel.app/
 - Useful for comparing specific versions
 - Access via "View deployment" button in PR comments
 
+**Getting the Preview URL Automatically:**
+
+Run this script to fetch the current preview URL from GitHub:
+```bash
+./scripts/get-preview-url.sh
+```
+
+This queries the GitHub API for the latest deployment and displays quick links for testing.
+
 **Post-Push Verification:**
 
 Wait 10-15 seconds after `git push` for the deployment to complete, then verify using the **branch URL**:
