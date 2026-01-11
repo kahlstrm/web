@@ -7,7 +7,8 @@ export default defineConfig({
     inlineStylesheets: "always",
   },
   markdown: {
-    shikiConfig: {
+    syntaxHighlight: {
+      type: "shiki",
       theme: "github-dark",
       wrap: true,
       excludeLangs: ["mermaid"],
