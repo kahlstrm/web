@@ -25,7 +25,8 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
 }).format(post.data.pubDate);
 
-const sourceUrl = `https://github.com/kahlstrm/kalski-web/blob/main/src/content/blog/${post.slug}.md`;
+// Use post.id which contains the full path (e.g., "example-post.md" or "example-with-assets/index.md")
+const sourceUrl = `https://github.com/kahlstrm/kalski-web/blob/main/src/content/blog/${post.id}`;
 ---
 
 <Layout title={`${post.data.title} - Kalle Ahlström`}>

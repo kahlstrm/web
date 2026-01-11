@@ -40,24 +40,45 @@ All checks must pass for PRs to be merged.
 
 ### Adding a New Blog Post
 
-1. Create a markdown file in `src/content/blog/`:
-   ```markdown
-   ---
-   title: "Post Title"
-   description: "Brief description for preview"
-   pubDate: 2026-01-10
-   author: kahlstrm        # Optional, defaults to "kahlstrm"
-   tags: ["tag1", "tag2"]  # Optional
-   ---
+Blog posts support two formats:
 
-   # Your Content Here
+**Simple Format** (text-only posts):
+```bash
+src/content/blog/my-post.md
+```
 
-   Write your markdown content with code blocks, images, etc.
-   ```
+**Directory Format** (posts with images/assets):
+```bash
+src/content/blog/my-post/
+├── index.md       # Main content
+├── image.png      # Images
+└── data.json      # Other assets
+```
 
-2. Commit and push to a feature branch
+Both formats produce the same URL: `/blog/my-post`
 
-3. Posts are published when merged to main
+#### Frontmatter Template
+
+```markdown
+---
+title: "Post Title"
+description: "Brief description for preview"
+pubDate: 2026-01-10
+author: kahlstrm        # Optional, defaults to "kahlstrm"
+tags: ["tag1", "tag2"]  # Optional (tags are visual only, not clickable)
+---
+
+# Your Content Here
+
+Write your markdown content with code blocks, images, etc.
+```
+
+#### Publishing Workflow
+
+1. Create your blog post (simple `.md` or directory with `index.md`)
+2. Add images/assets in the same directory (directory format only)
+3. Commit and push to a feature branch
+4. Posts are published when merged to main
 
 ### Example Posts
 
@@ -71,24 +92,31 @@ Example posts (with "example" in the slug) are:
 ```
 src/
 ├── content/
-│   ├── blog/              # Blog post markdown files
-│   └── config.ts          # Content collection schema
+│   ├── blog/                      # Blog posts
+│   │   ├── simple-post.md         # Simple format (text-only)
+│   │   └── post-with-assets/      # Directory format (with images/assets)
+│   │       ├── index.md
+│   │       └── image.png
+│   └── config.ts                  # Content collection schema
 ├── pages/
 │   ├── blog/
-│   │   ├── index.astro    # Blog listing page
-│   │   └── [slug].astro   # Individual blog post pages
-│   └── index.astro        # Homepage
+│   │   ├── index.astro            # Blog listing page
+│   │   └── [slug].astro           # Individual blog post pages
+│   └── index.astro                # Homepage
 ├── components/
-│   ├── BlogCard.astro     # Blog post preview card
-│   └── Navigation.astro   # Site navigation
-└── layouts/
-    └── Layout.astro       # Main layout wrapper
+│   ├── BlogCard.astro             # Blog post preview card
+│   └── Navigation.astro           # Site navigation
+├── layouts/
+│   └── Layout.astro               # Main layout wrapper
+└── utils/
+    └── blog.ts                    # Blog filtering utilities
 ```
 
 ## Key Features
 
 - **Zero runtime dependencies** - Uses Astro's built-in features
 - **Type-safe** - Zod schema validation for blog posts
+- **Flexible blog formats** - Simple `.md` or directory-based with assets
 - **Syntax highlighting** - GitHub Dark theme, 100+ languages
 - **Git-based workflow** - Branches are drafts, main is published
 - **Offline builds** - Falls back to example.json when API unavailable
