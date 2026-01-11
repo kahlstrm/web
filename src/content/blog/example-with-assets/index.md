@@ -24,6 +24,14 @@ src/content/blog/
 - **Relative paths**: Reference images with `./image.png`
 - **Clean URLs**: Both formats produce the same URL structure
 
+## Including Images
+
+With directory-based posts, you can easily include images using relative paths:
+
+![Pixel Art Character](./kalski.png)
+
+Just place your images in the same directory as `index.md` and reference them with `./filename.png`.
+
 ## Simple Posts vs. Directory Posts
 
 Choose the format based on your needs:
