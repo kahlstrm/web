@@ -62,6 +62,7 @@ const fullImageUrl = new URL(image, Astro.site);
       <Navigation showBlog={showBlog} />
       <slot />
     </div>
+    <slot name="footer" />
   </body>
 </html>
 <style is:global>
