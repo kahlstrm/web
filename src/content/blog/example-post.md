@@ -91,6 +91,57 @@ sequenceDiagram
     Blog->>User: Post published
 ```
 
+Small simple diagram:
+
+```mermaid
+graph LR
+    A[Start] --> B[End]
+```
+
+Large complex diagram for testing responsive scaling:
+
+```mermaid
+graph TB
+    subgraph "Frontend"
+        A[User Browser] --> B[Astro Pages]
+        B --> C[Blog Listing]
+        B --> D[Blog Post]
+        C --> E[BlogCard Components]
+        D --> F[Markdown Content]
+        F --> G[Code Blocks]
+        F --> H[Mermaid Diagrams]
+        F --> I[Images]
+    end
+
+    subgraph "Build Process"
+        J[Git Commit] --> K[CI Pipeline]
+        K --> L[Format Check]
+        K --> M[Type Check]
+        K --> N[Build]
+        N --> O[Shiki Syntax Highlighting]
+        N --> P[Rehype Mermaid]
+        P --> Q[Playwright Render]
+        Q --> R[SVG Output]
+        N --> S[Static HTML]
+    end
+
+    subgraph "Content"
+        T[Markdown Files] --> U[Content Collections]
+        U --> V[Zod Schema Validation]
+        V --> W[Type-safe Props]
+    end
+
+    J --> T
+    W --> B
+    S --> A
+    R --> H
+    O --> G
+
+    style A fill:#4f39fa,color:#fff
+    style S fill:#da62c4,color:#fff
+    style R fill:#4f39fa,color:#fff
+```
+
 ## Markdown Formatting
 
 You can use all standard markdown features:
