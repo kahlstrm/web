@@ -7,7 +7,7 @@ export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  retries: 0,
   // Limit the number of workers on CI, use default locally
   workers: process.env.CI ? 2 : undefined,
   reporter: [["html"], ["list"]],
