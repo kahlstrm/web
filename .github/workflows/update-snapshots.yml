@@ -27,7 +27,5 @@ jobs:
           git add tests/visual/*-snapshots/
           git diff --staged --quiet || git commit -m "chore: update visual regression baselines"
           git push
-      - name: Trigger CI
-        run: gh workflow run ci.yml --ref ${{ github.ref }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Verify snapshots pass
+        run: pnpm test:visual
