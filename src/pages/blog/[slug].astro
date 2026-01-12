@@ -52,7 +52,7 @@ const structuredData = {
   <main>
     <article>
       <header>
-        <h1>{post.data.title}</h1>
+        <h1 transition:name={`post-title-${post.slug}`}>{post.data.title}</h1>
         <div class="meta">
           <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time
           >
