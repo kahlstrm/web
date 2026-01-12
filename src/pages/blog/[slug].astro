@@ -54,7 +54,9 @@ const structuredData = {
       <header>
         <h1 transition:name={`post-title-${post.slug}`}>{post.data.title}</h1>
         <div class="meta">
-          <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time
+          <time
+            datetime={post.data.pubDate.toISOString()}
+            transition:name={`post-date-${post.slug}`}>{formattedDate}</time
           >
           <span class="author"
             >by <a
