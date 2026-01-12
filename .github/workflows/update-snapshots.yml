@@ -1,18 +1,11 @@
 name: Update Visual Snapshots
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: "Branch to update snapshots for"
-        required: true
-        type: string
 jobs:
   update-snapshots:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.branch }}
       - uses: pnpm/action-setup@v4
       - name: Use Node.js
         uses: actions/setup-node@v4
