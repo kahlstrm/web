@@ -23,13 +23,12 @@ const showBlog = posts.length > 0;
         <p class="no-posts">No blog posts yet. Check back soon!</p>
       ) : (
         <ul role="list" class="blog-card-grid">
-          {posts.map((post, i) => (
+          {posts.map((post) => (
             <BlogCard
               title={post.data.title}
               description={post.data.description}
               pubDate={post.data.pubDate}
               slug={post.slug}
-              index={i}
             />
           ))}
         </ul>

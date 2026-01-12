@@ -38,13 +38,12 @@ if (
     <h2>Some cool projects I've made/contributed to:</h2>
     <ul role="list" class="link-card-grid">
       {
-        repos.repos.map((repo, i) => (
+        repos.repos.map((repo) => (
           <Card
             body={repo.description}
             title={repo.owner.login === repos.self ? repo.name : repo.full_name}
             href={repo.html_url}
             lang={repo.language}
-            index={i}
           />
         ))
       }

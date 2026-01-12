@@ -4,10 +4,9 @@ export interface Props {
   body: string;
   href: string;
   lang: string;
-  index: number;
 }
 import colors from "../colors.json";
-const { href, title, body, lang, index } = Astro.props as Props;
+const { href, title, body, lang } = Astro.props as Props;
 ---
 
 <li class="link-card">
