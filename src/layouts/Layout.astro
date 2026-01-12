@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from "astro:transitions";
 import Navigation from "../components/Navigation.astro";
 
 export interface Props {
@@ -29,7 +28,6 @@ const fullImageUrl = new URL(image, Astro.site);
 <!doctype html>
 <html lang="en">
   <head>
-    <ClientRouter />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
@@ -68,6 +66,11 @@ const fullImageUrl = new URL(image, Astro.site);
   </body>
 </html>
 <style is:global>
+  /* Enable native cross-document View Transitions (Chrome 126+, Edge 126+) */
+  @view-transition {
+    navigation: auto;
+  }
+
   :root {
     --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
     --font-size-lg: clamp(1.2rem, 0.7vw + 1.2rem, 1.5rem);
