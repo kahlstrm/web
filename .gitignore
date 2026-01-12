@@ -21,3 +21,7 @@ pnpm-debug.log*
 
 # generated types
 .astro/
+
+# playwright
+playwright-report/
+test-results/
