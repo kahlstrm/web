@@ -20,7 +20,85 @@ pnpm typecheck     # Run Astro type checking
 pnpm build:offline # Build without GitHub API (for CI/offline)
 # or
 pnpm build         # Build with GitHub API (production)
+
+# 4. Visual regression tests (optional, for visual changes)
+pnpm test:visual   # Run visual regression tests against baselines
 ```
+
+### Visual Regression Testing
+
+The project uses Playwright for visual regression testing to catch unintended visual changes.
+
+**Initial Setup (first time only):**
+
+```bash
+# Install Playwright browsers
+pnpm exec playwright install chromium
+
+# Build the site and generate baseline screenshots
+pnpm build:offline
+pnpm test:visual:update
+```
+
+**Running Visual Tests:**
+
+```bash
+# Run all visual regression tests
+pnpm test:visual
+
+# Run tests with interactive UI
+pnpm test:visual:ui
+
+# View HTML test report
+pnpm test:visual:report
+
+# Debug a specific test
+pnpm test:visual:debug
+```
+
+**Updating Baselines (when intentional visual changes are made):**
+
+```bash
+# After making intentional visual changes
+pnpm build:offline
+pnpm test:visual:update
+
+# Commit the updated baseline screenshots
+git add tests/
+git commit -m "Update visual regression baselines"
+```
+
+**Test Coverage:**
+
+Visual regression tests capture screenshots for:
+- Homepage (desktop + mobile)
+- Blog list page (desktop + mobile)
+- Example blog post (desktop + mobile)
+- Example blog post with assets (desktop + mobile)
+
+**Viewports:**
+- Desktop: 1920x1080
+- Mobile: 375x667
+
+**Baseline Screenshots:**
+
+Baseline images are stored in `tests/visual.spec.ts-snapshots/` and committed to git. When tests run, Playwright compares current screenshots against these baselines and reports any pixel differences.
+
+**Handling Test Failures:**
+
+If visual tests fail:
+1. Review the diff images in the HTML report: `pnpm test:visual:report`
+2. If changes are intentional, update baselines: `pnpm test:visual:update`
+3. If changes are bugs, fix the issue and re-run tests
+4. Commit updated baselines only when changes are intentional
+
+**CI Integration:**
+
+Visual regression tests are not yet integrated into CI. To add them:
+1. Install Playwright browsers in CI: `pnpm exec playwright install --with-deps chromium`
+2. Build the site: `pnpm build:offline`
+3. Run tests: `pnpm test:visual`
+4. Upload diff artifacts on failure for debugging
 
 ### Development Server
 
