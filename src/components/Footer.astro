@@ -12,7 +12,7 @@ const { sourceUrl = "https://github.com/kahlstrm/web" } = Astro.props as Props;
 
 <style>
   .footer {
-    color: gray;
+    color: var(--color-text);
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -24,6 +24,6 @@ const { sourceUrl = "https://github.com/kahlstrm/web" } = Astro.props as Props;
 
   a {
     text-decoration: underline;
-    color: gray;
+    color: var(--color-text);
   }
 </style>

@@ -74,6 +74,9 @@ const fullImageUrl = new URL(image, Astro.site);
     --font-size-xl: clamp(2.44rem, 2.38vw + 1.85rem, 3rem);
 
     --color-text: hsl(12, 5%, 4%);
+    --text-color: var(
+      --color-text
+    ); /* Alias for components using --text-color */
     --color-bg: hsl(42, 50%, 80%);
     --color-border: hsl(17, 24%, 90%);
   }
