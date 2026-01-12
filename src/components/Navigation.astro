@@ -9,7 +9,7 @@ const isHome = currentPath === "/";
 const isBlog = currentPath.startsWith("/blog");
 ---
 
-<nav class="main-nav slide-in-top">
+<nav class="main-nav">
   <a href="/" class:list={["nav-link", { active: isHome }]}>Home</a>
   {
     showBlog && (

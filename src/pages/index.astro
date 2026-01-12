@@ -30,14 +30,12 @@ if (
 
 <Layout title="Kalle Ahlström" showBlog={showBlog}>
   <main>
-    <h1 class="slide-in-top">
+    <h1>
       Welcome to <span class="text-gradient">kahlstrm.xyz</span>
     </h1>
     <InfoCard />
     <Contact />
-    <h2 class="slide-in-bottom" style="animation-delay: 300ms;">
-      Some cool projects I've made/contributed to:
-    </h2>
+    <h2>Some cool projects I've made/contributed to:</h2>
     <ul role="list" class="link-card-grid">
       {
         repos.repos.map((repo, i) => (
