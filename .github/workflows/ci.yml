@@ -26,6 +26,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
+      - name: Build for visual tests
+        run: pnpm build:offline
       - name: Run visual regression tests
         run: pnpm test:visual
       - name: Upload test artifacts on failure
