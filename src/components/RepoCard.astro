@@ -10,10 +10,7 @@ import colors from "../colors.json";
 const { href, title, body, lang, index } = Astro.props as Props;
 ---
 
-<li
-  class="link-card slide-in-bottom"
-  style={`animation-delay:${500 + 200 * index}ms`}
->
+<li class="link-card">
   <a href={href}>
     <h2>
       {title}

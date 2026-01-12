@@ -13,12 +13,10 @@ const showBlog = posts.length > 0;
 
 <Layout title="Blog - Kalle Ahlström" showBlog={showBlog}>
   <main>
-    <h1 class="slide-in-top">
+    <h1>
       <span class="text-gradient">Blog</span>
     </h1>
-    <p class="intro slide-in-bottom" style="animation-delay: 200ms;">
-      Short texts, notes, and thoughts.
-    </p>
+    <p class="intro">Short texts, notes, and thoughts.</p>
 
     {
       posts.length === 0 ? (

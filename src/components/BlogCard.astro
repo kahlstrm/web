@@ -15,12 +15,9 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
 }).format(pubDate);
 ---
 
-<li
-  class="blog-card slide-in-bottom"
-  style={`animation-delay:${500 + 200 * index}ms`}
->
+<li class="blog-card">
   <a href={`/blog/${slug}`}>
-    <h2>
+    <h2 transition:name={`post-title-${slug}`}>
       {title}
       <span>&rarr;</span>
     </h2>

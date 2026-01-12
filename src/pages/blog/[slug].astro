@@ -51,8 +51,8 @@ const structuredData = {
 >
   <main>
     <article>
-      <header class="slide-in-top">
-        <h1>{post.data.title}</h1>
+      <header>
+        <h1 transition:name={`post-title-${post.slug}`}>{post.data.title}</h1>
         <div class="meta">
           <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time
           >
@@ -66,7 +66,7 @@ const structuredData = {
         </div>
       </header>
 
-      <div class="content slide-in-bottom" style="animation-delay: 200ms;">
+      <div class="content">
         <Content />
       </div>
     </article>
