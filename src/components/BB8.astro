@@ -206,20 +206,28 @@
     width: 240px;
     height: 326px;
 
+    /*
+     * Normalized to ~150px/s across breakpoints:
+     * 140vw travel, duration scales with viewport width
+     */
     --travel-start: 70vw;
     --travel-end: -70vw;
-    --move-duration: 6s;
+    --move-duration: 12s; /* ~1300px viewport: 1820px / 150px/s */
     --rotation-duration: 0.9s;
     --head-tilt-duration: 0.3s;
 
     animation: move-across-screen var(--move-duration) linear infinite;
   }
 
+  @media (max-width: 1024px) {
+    .bb-8 {
+      --move-duration: 8s; /* ~800px viewport: 1120px / 150px/s */
+    }
+  }
+
   @media (max-width: 600px) {
     .bb-8 {
-      --travel-start: 100vw;
-      --travel-end: -100vw;
-      --move-duration: 2s;
+      --move-duration: 5s; /* ~400px viewport: 560px / 150px/s */
     }
   }
 
