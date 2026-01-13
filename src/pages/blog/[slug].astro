@@ -209,11 +209,21 @@ const structuredData = {
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0);
   }
 
   .content :global(.lightbox:target) {
     display: block;
+    animation: lightbox-fade-in 0.2s ease-out forwards;
+  }
+
+  @keyframes lightbox-fade-in {
+    from {
+      background: rgba(0, 0, 0, 0);
+    }
+    to {
+      background: rgba(0, 0, 0, 0.9);
+    }
   }
 
   .content :global(.lightbox-close) {
@@ -234,6 +244,18 @@ const structuredData = {
     border-radius: 0.5rem;
     margin: 0;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    animation: lightbox-zoom-in 0.2s ease-out forwards;
+  }
+
+  @keyframes lightbox-zoom-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   .content :global(hr) {
