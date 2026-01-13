@@ -1,4 +1,6 @@
 ---
+import BB8 from "./BB8.astro";
+
 export interface Props {
   sourceUrl?: string;
 }
@@ -6,19 +8,37 @@ export interface Props {
 const { sourceUrl = "https://github.com/kahlstrm/web" } = Astro.props as Props;
 ---
 
-<div class="footer">
-  <a href={sourceUrl} target="_blank" rel="noopener noreferrer">Source</a>
-</div>
+<footer class="footer">
+  <div class="bb8-container">
+    <BB8 />
+  </div>
+  <div class="footer-links">
+    <a href={sourceUrl} target="_blank" rel="noopener noreferrer">Source</a>
+  </div>
+</footer>
 
 <style>
   .footer {
     color: var(--color-text);
     width: 100%;
+    margin-top: auto;
+  }
+
+  .bb8-container {
+    overflow-x: hidden;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+
+  .footer-links {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
-    margin-top: auto;
     padding: 0.5rem 0;
   }
 
