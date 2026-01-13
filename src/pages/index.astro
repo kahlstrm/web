@@ -1,7 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/RepoCard.astro";
-import BB8 from "../components/BB8.astro";
 import Footer from "../components/Footer.astro";
 import { fetchReposFromApi } from "../util";
 import InfoCard from "../components/InfoCard.astro";
@@ -49,9 +48,6 @@ if (
       }
     </ul>
   </main>
-  <div class="bb8-container">
-    <BB8 />
-  </div>
   <Footer slot="footer" />
 </Layout>
 
@@ -68,16 +64,6 @@ if (
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-  }
-
-  .bb8-container {
-    overflow-x: hidden;
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
   }
 
   .text-gradient {

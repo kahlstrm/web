@@ -190,43 +190,13 @@
     }
   }
 
-  @-webkit-keyframes move-across-screen-desktop {
+  @keyframes move-across-screen {
     from {
-      transform: translateX(70vw);
+      transform: translateX(var(--travel-start));
     }
 
     to {
-      transform: translateX(-70vw);
-    }
-  }
-
-  @keyframes move-across-screen-desktop {
-    from {
-      transform: translateX(70vw);
-    }
-
-    to {
-      transform: translateX(-70vw);
-    }
-  }
-
-  @-webkit-keyframes move-across-screen-mobile {
-    from {
-      transform: translateX(70vw);
-    }
-
-    to {
-      transform: translateX(-70vw);
-    }
-  }
-
-  @keyframes move-across-screen-mobile {
-    from {
-      transform: translateX(100vw);
-    }
-
-    to {
-      transform: translateX(-100vw);
+      transform: translateX(var(--travel-end));
     }
   }
 
@@ -235,12 +205,29 @@
     margin: 50px auto;
     width: 240px;
     height: 326px;
-    animation: move-across-screen-desktop 6s linear infinite;
+
+    /*
+     * Normalized to ~300px/s across breakpoints:
+     * 140vw travel, duration scales with viewport width
+     */
+    --travel-start: 70vw;
+    --travel-end: -70vw;
+    --move-duration: 7s;
+    --rotation-duration: 0.9s;
+    --head-tilt-duration: 0.3s;
+
+    animation: move-across-screen var(--move-duration) linear infinite;
+  }
+
+  @media (max-width: 1024px) {
+    .bb-8 {
+      --move-duration: 4s;
+    }
   }
 
   @media (max-width: 600px) {
     .bb-8 {
-      animation: move-across-screen-mobile 2s linear infinite;
+      --move-duration: 2.5s;
     }
   }
 
@@ -249,9 +236,7 @@
     position: absolute;
     width: 140px;
     height: 93px;
-    -webkit-animation: head-tilt 0.3s 0.5s linear infinite;
-    -ms-animation: head-tilt 0.3s 0.5s linear infinite;
-    animation: head-tilt 0.3s 0.5s linear infinite;
+    animation: head-tilt var(--head-tilt-duration) linear infinite;
   }
 
   .bb-8__head__antenna {
@@ -446,17 +431,13 @@
   .bb-8__body {
     background-color: #fff3e7;
     z-index: 2;
-    -webkit-animation: rotate-body 0.9s 0.5s linear infinite;
-    -ms-animation: rotate-body 0.9s 0.5s linear infinite;
-    animation: rotate-body 0.9s 0.5s linear infinite;
+    animation: rotate-body var(--rotation-duration) linear infinite;
   }
 
   .bb-8__head-shadow {
     background-color: transparent;
     z-index: 3;
-    -webkit-animation: head-tilt 0.3s 0.5s linear infinite;
-    -ms-animation: head-tilt 0.3s 0.5s linear infinite;
-    animation: head-tilt 0.3s 0.5s linear infinite;
+    animation: head-tilt var(--head-tilt-duration) linear infinite;
   }
 
   .bb-8__head-shadow:before {
@@ -726,8 +707,6 @@
     left: 30px;
     z-index: -1;
     border-radius: 50%;
-    -webkit-animation: move-shadow 0.3s 0.5s linear infinite;
-    -ms-animation: move-shadow 0.3s 0.5s linear infinite;
-    animation: move-shadow 0.3s 0.5s linear infinite;
+    animation: move-shadow var(--head-tilt-duration) linear infinite;
   }
 </style>
