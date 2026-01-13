@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Image Lightbox", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/blog/example-with-assets");
+    await page.goto("/blog/example-lightbox-test");
     await page.waitForLoadState("networkidle");
   });
 
