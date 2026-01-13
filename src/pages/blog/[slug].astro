@@ -79,30 +79,6 @@ const structuredData = {
       type="application/ld+json"
       set:html={JSON.stringify(structuredData)}
     />
-
-    <!-- Lightbox enhancement: fix back navigation -->
-    <script>
-      document.addEventListener("click", (e) => {
-        const trigger = e.target.closest(".image-trigger");
-        if (trigger) {
-          e.preventDefault();
-          history.replaceState(null, "", trigger.getAttribute("href"));
-          dispatchEvent(new HashChangeEvent("hashchange"));
-        }
-        const close = e.target.closest(".lightbox-close");
-        if (close) {
-          e.preventDefault();
-          history.replaceState(null, "", location.pathname);
-          dispatchEvent(new HashChangeEvent("hashchange"));
-        }
-      });
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && location.hash.startsWith("#lightbox-")) {
-          history.replaceState(null, "", location.pathname);
-          dispatchEvent(new HashChangeEvent("hashchange"));
-        }
-      });
-    </script>
   </main>
   <Footer slot="footer" sourceUrl={sourceUrl} />
 </Layout>
