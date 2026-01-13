@@ -42,7 +42,6 @@ test.describe("Image Links", () => {
     const links = page.locator(".image-link");
     for (const link of await links.all()) {
       // Each image-link should directly contain an img, not another link
-      const directChildren = link.locator("> *");
       const imgs = link.locator("> img");
       await expect(imgs).toHaveCount(1);
     }
