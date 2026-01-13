@@ -27,9 +27,13 @@ src/content/blog/
 
 With directory-based posts, you can easily include images using relative paths:
 
-![Example image](./kalski.png)
+![First example image](./kalski.png)
 
 Just place your images in the same directory as `index.md` and reference them with `./filename.png`.
+
+Here's another image to demonstrate multiple images in a post:
+
+![Second example image](./kalski.png)
 
 ## Simple Posts vs. Directory Posts
 
