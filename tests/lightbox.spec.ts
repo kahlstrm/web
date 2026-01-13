@@ -1,104 +1,50 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Image Lightbox", () => {
+test.describe("Image Links", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/blog/example-lightbox-test");
     await page.waitForLoadState("networkidle");
   });
 
-  test("images have lightbox trigger links", async ({ page }) => {
-    const triggers = page.locator(".image-trigger");
-    await expect(triggers).toHaveCount(2);
+  test("images are wrapped in links", async ({ page }) => {
+    const imageLinks = page.locator(".image-link");
+    await expect(imageLinks).toHaveCount(2);
 
-    // Each trigger should contain an image
-    for (const trigger of await triggers.all()) {
-      await expect(trigger.locator("img")).toBeVisible();
+    // Each link should contain an image
+    for (const link of await imageLinks.all()) {
+      await expect(link.locator("img")).toBeVisible();
     }
   });
 
-  test("lightbox elements exist but are hidden", async ({ page }) => {
-    const lightboxes = page.locator(".lightbox");
-    await expect(lightboxes).toHaveCount(2);
+  test("image links open in new tab", async ({ page }) => {
+    const firstLink = page.locator(".image-link").first();
+    await expect(firstLink).toHaveAttribute("target", "_blank");
+    await expect(firstLink).toHaveAttribute("rel", "noopener");
+  });
 
-    // Lightboxes should not be visible initially
-    for (const lightbox of await lightboxes.all()) {
-      await expect(lightbox).not.toBeVisible();
+  test("image links point to image source", async ({ page }) => {
+    const firstLink = page.locator(".image-link").first();
+    const img = firstLink.locator("img");
+
+    const imgSrc = await img.getAttribute("src");
+    const linkHref = await firstLink.getAttribute("href");
+
+    expect(linkHref).toBe(imgSrc);
+  });
+
+  test("links have zoom-in cursor", async ({ page }) => {
+    const firstLink = page.locator(".image-link").first();
+    await expect(firstLink).toHaveCSS("cursor", "zoom-in");
+  });
+
+  test("images already in links are not double-wrapped", async ({ page }) => {
+    // Navigate to a page and check structure
+    const links = page.locator(".image-link");
+    for (const link of await links.all()) {
+      // Each image-link should directly contain an img, not another link
+      const directChildren = link.locator("> *");
+      const imgs = link.locator("> img");
+      await expect(imgs).toHaveCount(1);
     }
-  });
-
-  test("clicking image opens lightbox", async ({ page }) => {
-    const firstTrigger = page.locator(".image-trigger").first();
-    const firstLightbox = page.locator(".lightbox").first();
-
-    // Click the first image
-    await firstTrigger.click();
-
-    // Lightbox should now be visible
-    await expect(firstLightbox).toBeVisible();
-
-    // URL should have hash
-    expect(page.url()).toContain("#lightbox-");
-  });
-
-  test("clicking lightbox overlay closes it", async ({ page }) => {
-    const firstTrigger = page.locator(".image-trigger").first();
-    const firstLightbox = page.locator(".lightbox").first();
-
-    // Open lightbox
-    await firstTrigger.click();
-    await expect(firstLightbox).toBeVisible();
-
-    // Click the close link (covers entire viewport)
-    await page.locator(".lightbox-close").first().click();
-
-    // Lightbox should be hidden
-    await expect(firstLightbox).not.toBeVisible();
-  });
-
-  test("each image opens its own lightbox", async ({ page }) => {
-    const triggers = page.locator(".image-trigger");
-    const lightboxes = page.locator(".lightbox");
-
-    // Click first image
-    await triggers.nth(0).click();
-    await expect(lightboxes.nth(0)).toBeVisible();
-    await expect(lightboxes.nth(1)).not.toBeVisible();
-
-    // Close it
-    await page.locator(".lightbox-close").first().click();
-
-    // Click second image
-    await triggers.nth(1).click();
-    await expect(lightboxes.nth(0)).not.toBeVisible();
-    await expect(lightboxes.nth(1)).toBeVisible();
-  });
-
-  test("lightbox image has correct src", async ({ page }) => {
-    const firstTrigger = page.locator(".image-trigger").first();
-    const triggerImg = firstTrigger.locator("img");
-    const lightboxImg = page.locator(".lightbox").first().locator("img");
-
-    // Get the src from trigger image
-    const triggerSrc = await triggerImg.getAttribute("src");
-
-    // Open lightbox
-    await firstTrigger.click();
-
-    // Lightbox image should have same src
-    const lightboxSrc = await lightboxImg.getAttribute("src");
-    expect(lightboxSrc).toBe(triggerSrc);
-  });
-
-  test("lightbox has zoom-out cursor", async ({ page }) => {
-    const firstTrigger = page.locator(".image-trigger").first();
-    await firstTrigger.click();
-
-    const closeLink = page.locator(".lightbox-close").first();
-    await expect(closeLink).toHaveCSS("cursor", "zoom-out");
-  });
-
-  test("trigger has zoom-in cursor", async ({ page }) => {
-    const firstTrigger = page.locator(".image-trigger").first();
-    await expect(firstTrigger).toHaveCSS("cursor", "zoom-in");
   });
 });
