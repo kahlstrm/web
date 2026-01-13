@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import rehypeImageLightbox from "./plugins/rehype-image-lightbox.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,5 +14,6 @@ export default defineConfig({
       theme: "github-dark",
       wrap: true,
     },
+    rehypePlugins: [rehypeImageLightbox],
   },
 });
