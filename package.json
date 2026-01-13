@@ -1,11 +1,12 @@
 {
   "name": "web",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "build:offline": "PUBLIC_SKIP_GITHUB_API=true astro build",
+    "build:offline": "PUBLIC_SKIP_GITHUB_API=true astro build && node scripts/generate-test-fixtures.js",
     "preview": "astro preview",
     "fetch-colors": "wget -O src/colors.json https://github.com/ozh/github-colors/raw/master/colors.json && pnpm format:fix",
     "format": "prettier --check src --plugin=prettier-plugin-astro",
