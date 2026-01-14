@@ -79,6 +79,23 @@ const structuredData = {
       type="application/ld+json"
       set:html={JSON.stringify(structuredData)}
     />
+
+    <!-- Make images clickable to open in new tab -->
+    <script>
+      document
+        .querySelectorAll<HTMLImageElement>(".content img")
+        .forEach((img) => {
+          // Skip if already wrapped in a link
+          if (img.parentElement?.tagName === "A") return;
+
+          const link = document.createElement("a");
+          link.href = img.src;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          img.parentElement?.insertBefore(link, img);
+          link.appendChild(img);
+        });
+    </script>
   </main>
   <Footer slot="footer" sourceUrl={sourceUrl} />
 </Layout>
@@ -188,6 +205,7 @@ const structuredData = {
     height: auto;
     border-radius: 0.5rem;
     margin: 1.5rem 0;
+    cursor: pointer;
   }
 
   .content :global(hr) {
