@@ -1,6 +1,6 @@
 ---
 title: "One Billion Row Challenge in Rust"
-description: "Parsing a billion rows of using safe Rust with no dependencies"
+description: "Parsing a billion rows using safe Rust with no dependencies"
 pubDate: 2024-04-30
 ---
 
@@ -8,7 +8,7 @@ Note (2026-01-13): this post originally resided within the repository README.md,
 
 This repository contains my implementation in Rust for the One Billion Row Challenge (1BRC), which tests the limits of processing one billion rows from a text file. [Original challenge repository](https://github.com/gunnarmorling/1brc)
 
-The main idea is to explore optiziming performance of a program through profiling and parallellism, with also trying to use only ["Safe Rust"](https://doc.rust-lang.org/nomicon/meet-safe-and-unsafe.html#meet-safe-and-unsafe). All error handling of this project is handled poorly knowingly, and only the happy path is considered.
+The main idea is to explore optimizing performance of a program through profiling and parallelism, with also trying to use only ["Safe Rust"](https://doc.rust-lang.org/nomicon/meet-safe-and-unsafe.html#meet-safe-and-unsafe). All error handling of this project is handled poorly knowingly, and only the happy path is considered.
 
 ## Challenge
 
@@ -50,13 +50,13 @@ Benchmarks and profiling results shown below are run against a `measurements.txt
 | [Improving the line parsing #2](#writing-a-custom-measurement-parser)                         | 44.967 s ± 0.542  | <strong style="color:#22c55e;"> -10,719 s (-19%)</strong> | Custom, byte based measurement value parser building on top of previous optimization                                     |
 | [Use `Vec<u8>` everywhere instead of `String`](#using-vecu8-instead-of-string)                | 38.470 s ± 0.485  | <strong style="color:#22c55e;"> -6,497 s (-14%)</strong>  | Time save mostly from not needing to do UTF-8 validation when using `Vec<u8>`, as that is not necessary.                 |
 | [a custom hash function](#using-a-custom-hash-function)                                       | 30.427 s ± 0.455  | <strong style="color:#22c55e;"> -8,043 s (-21%)</strong>  | Use a custom hash function for the hashmap that is used by the Rust Compiler                                             |
-| [Custom chunked reader](#chunked-reader-to-reduce-memory-footprint--prepare-for-parallellism) | 29.310 s ± 0.276  | <strong style="color:#22c55e;"> -1,117 s (-4%)</strong>   | Write a custom chunked file reader to prepare for parallellism and reduce memory allocation                              |
+| [Custom chunked reader](#chunked-reader-to-reduce-memory-footprint--prepare-for-parallelism)  | 29.310 s ± 0.276  | <strong style="color:#22c55e;"> -1,117 s (-4%)</strong>   | Write a custom chunked file reader to prepare for parallelism and reduce memory allocation                               |
 | [Tweak chunk size](#tweaking-the-chunk_size)                                                  | 28.663 s ± 0.546  | <strong style="color:#22c55e;"> -0,647 s (-2%)</strong>   | Small tweak for the fixed buffer-size created in previous improvement                                                    |
 | [Multithreading](#multithreading)                                                             | 3.747 s ± 0.093   | <strong style="color:#22c55e;"> -24,916 s (-87%)</strong> | Multithread the program to utilize all cores on the system                                                               |
 
 ### Initial Version
 
-Nothing special really, just a quick version to get things going with a `HashMap<String,WeatherStationStats`.
+Nothing special really, just a quick version to get things going with a `HashMap<String,WeatherStationStats>`.
 
 Struggled too long with getting a correct implementation of the rounding calculation to pass the original test suite.
 
@@ -71,7 +71,7 @@ Benchmark 1: ./target/release/brc-rs
 
 ![Flame Graph of initial implementation](initial.png)
 
-Looking at the flame graph, we spend ~30% of the time in `<std::io::Lines as core::iter::traits::iterator::Iterator>::next`. That is, reading the file line by line. This most likely due to the use of [`BufRead::lines()`](https://doc.rust-lang.org/std/io/trait.BufRead.html#method.lines) for iterating the lines, as it creates a new `String` for each row, allocating memory. This allocation of each line separately creates unnecessary overhead, and probably should be looked into first.
+Looking at the flame graph, we spend ~30% of the time in `<std::io::Lines as core::iter::traits::iterator::Iterator>::next`. That is, reading the file line by line. This is most likely due to the use of [`BufRead::lines()`](https://doc.rust-lang.org/std/io/trait.BufRead.html#method.lines) for iterating the lines, as it creates a new `String` for each row, allocating memory. This allocation of each line separately creates unnecessary overhead, and probably should be looked into first.
 
 Inside the `calc`-function we also spend 13% of the time creating strings and 17% of the time dropping Strings, freeing the allocated memory. We spend 16% in actually parsing the line, and 22% doing hashmap operations.
 
@@ -235,7 +235,7 @@ From the graph we see that `parse_line()` has shrunk significantly, with now the
 
 #### Writing a custom measurement parser
 
-At this point we probably already start looking into replacing the standard hashmap with something custom or looking into the line parsing again, but we're not done yet with improving the `parse_line()`-function yet.
+At this point we probably already start looking into replacing the standard hashmap with something custom or looking into the line parsing again, but we're not done yet with improving the `parse_line()`-function.
 Now we'll look at how we can improve parsing the value from the standard [`f64::FromStr`](https://doc.rust-lang.org/std/primitive.f64.html#method.from_str) to something custom based on the information given to us.
 
 Quick recap regarding the specification in the rules regarding the measurement data:
@@ -263,7 +263,7 @@ Quite happy with that, and time to look at other places for improvements, namely
 
 ### Using `Vec<u8>` instead of `String`
 
-Now that our `parse_line()` function is totally custom, and both user bytes directly, there is no need for us to use strings anymore.
+Now that our `parse_line()` function is totally custom, and both use bytes directly, there is no need for us to use strings anymore.
 On the right corner of the previous flamegraph, we can see that we spend around 5% of the program in something called `core::str::validations:run_utf8_validation`.
 This is UTF-8 string validation, as all `String`-types must be valid UTF-8 in Rust it runs always when not using `unsafe`.
 
@@ -292,12 +292,12 @@ One is built each time a new hash needs to be calculated.
 Hashers built by the same instance of a builder must always result in same output with the same input.
 
 The default `BuildHasher` that is the default for `HashMap` is [`RandomState`](https://doc.rust-lang.org/std/collections/hash_map/struct.RandomState.html).
-For each `RandomState`, a new randomized pair of keys is built that it then passes to it's hashers during construction.
+For each `RandomState`, a new randomized pair of keys is built that it then passes to its hashers during construction.
 These randomized keys are there to prevent [Hash DoS attacks](https://en.wikipedia.org/wiki/Collision_attack) from malicious users.
 
 Given that our input is not malicious, we don't seem to benefit from the randomized seeding of the `HashMap`, so we can instead look for better performance instead.
-After looking around into alternatives, I found [`rustc_hash`](https://docs.rs/rustc-hash/latest/rustc_hash/) with quite a quite nice [`Hasher`-implementation](https://docs.rs/rustc-hash/latest/src/rustc_hash/lib.rs.html#76-109).
-Originally based on Firefox's hashing algorithm, this crate is used in `rustc` due to it's perforamnce over standard library.
+After looking around into alternatives, I found [`rustc_hash`](https://docs.rs/rustc-hash/latest/rustc_hash/) with quite a nice [`Hasher`-implementation](https://docs.rs/rustc-hash/latest/src/rustc_hash/lib.rs.html#76-109).
+Originally based on Firefox's hashing algorithm, this crate is used in `rustc` due to its performance over the standard library.
 The characteristics of a compiler make it unsusceptible to Hash DoS-attacks.
 
 I took the `Hasher` implementation from that crate and integrated it only with `u64` instead of the original `usize`.
@@ -312,7 +312,7 @@ Benchmark 1: ./target/release/brc-rs
 
 ![Flamegraph of the program after using custom hash function](custom-hash-function.png)
 
-### Chunked reader to reduce memory footprint & prepare for parallellism
+### Chunked reader to reduce memory footprint & prepare for parallelism
 
 In section [Iterate over string slices instead of String](#iterate-over-string-slices-instead-of-string), we moved from reading the file line by line to loading the entire file first into memory instead.
 This caused our memory usage to increase to a staggering 13GB, but gained us some performance in not having to allocate and deallocate smaller strings constantly.
@@ -325,7 +325,7 @@ Where this matters more is when we want to start utilizing multiple cores at onc
 With our current approach, when we spawn threads we'd start reading from the file system concurrently with each thread.
 This would then be putting more stress on the I/O, Thus blocking all the threads.
 
-To prevent the 13GB allocation and prepare for parallellism, it's time to ditch [`BufReader`](https://doc.rust-lang.org/std/io/struct.BufReader.html) and write our own buffered reader.
+To prevent the 13GB allocation and prepare for parallelism, it's time to ditch [`BufReader`](https://doc.rust-lang.org/std/io/struct.BufReader.html) and write our own buffered reader.
 The concept is exactly the same as what `BufReader` does under the hood, but with us having full control of the underlying buffer and reading from the file.
 We'll create a fixed-size slice of bytes to act as our "buffer" where we'll read bytes into directly from the file handle (or anything that implements [`Read`](https://doc.rust-lang.org/std/io/trait.Read.html)-trait.)
 
