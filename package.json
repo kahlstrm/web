@@ -23,7 +23,7 @@
     "@astrojs/sitemap": "^3.6.1",
     "@playwright/test": "^1.57.0",
     "astro": "^5.16.9",
-    "prettier": "^3.7.4",
+    "prettier": "^3.8.0",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.9.3"
   },
