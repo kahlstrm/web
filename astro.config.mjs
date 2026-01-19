@@ -1,12 +1,11 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
-import { rehypeImageLinks } from "./src/plugins/rehype-image-links";
-import { fixImageLinks } from "./src/plugins/fix-image-links";
+import { imageLinks } from "./src/plugins/image-links";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://kahlstrm.xyz",
-  integrations: [sitemap(), fixImageLinks()],
+  integrations: [sitemap(), imageLinks()],
   build: {
     inlineStylesheets: "always",
   },
@@ -15,6 +14,5 @@ export default defineConfig({
       theme: "github-dark",
       wrap: true,
     },
-    rehypePlugins: [rehypeImageLinks],
   },
 });

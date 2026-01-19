@@ -3,12 +3,12 @@ import { join } from "node:path";
 import type { AstroIntegration } from "astro";
 
 /**
- * Astro integration that fixes image link hrefs after build.
- * Updates <a> tags wrapping <img> tags to use the processed image src.
+ * Astro integration that wraps blog images in links (post-build).
+ * Runs after image optimization so we get the correct processed URLs.
  */
-export function fixImageLinks(): AstroIntegration {
+export function imageLinks(): AstroIntegration {
   return {
-    name: "fix-image-links",
+    name: "image-links",
     hooks: {
       "astro:build:done": async ({ dir }) => {
         await processDirectory(dir.pathname);
@@ -34,12 +34,20 @@ async function processDirectory(dirPath: string): Promise<void> {
 async function processHtmlFile(filePath: string): Promise<void> {
   const content = await readFile(filePath, "utf-8");
 
-  // Match <a> tags that wrap <img> tags and update href to match img src
-  // Pattern: <a href="..." ...><img ... src="..." ...></a>
+  // Wrap <img> tags in <a> tags that open in new tab
+  // Skip images already wrapped in links
   const updated = content.replace(
-    /<a\s+([^>]*href=")[^"]*("[^>]*>)\s*(<img\s+[^>]*src=")([^"]*)("[^>]*>)\s*<\/a>/g,
-    (_, aStart, aMiddle, imgStart, imgSrc, imgEnd) => {
-      return `<a ${aStart}${imgSrc}${aMiddle}${imgStart}${imgSrc}${imgEnd}</a>`;
+    /(<a\s[^>]*>)?\s*<img\s+([^>]*)>\s*(<\/a>)?/g,
+    (match, openA, imgAttrs, closeA) => {
+      // Already wrapped in a link - skip
+      if (openA && closeA) return match;
+
+      // Extract src from img attributes
+      const srcMatch = imgAttrs.match(/src="([^"]*)"/);
+      if (!srcMatch) return match;
+
+      const src = srcMatch[1];
+      return `<a href="${src}" target="_blank" rel="noopener noreferrer"><img ${imgAttrs}></a>`;
     },
   );
 
