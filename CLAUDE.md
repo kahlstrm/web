@@ -2,6 +2,18 @@
 
 This document describes the development workflow and checks that should be run before committing changes.
 
+## IMPORTANT: No Client-Side JavaScript
+
+**This site ships ZERO JavaScript to the browser. This is a hard rule.**
+
+- Never add `<script>` tags that execute in the browser
+- Never use client-side frameworks or hydration
+- All interactivity must be handled via:
+  - CSS (hover states, transitions, etc.)
+  - Build-time transformations (rehype/remark plugins)
+  - Server-side rendering
+- The only exception is `<script type="application/ld+json">` for structured data (not executable)
+
 ## Development Workflow
 
 ### Before Committing
@@ -218,6 +230,7 @@ src/
 
 ## Key Features
 
+- **Zero client-side JavaScript** - No JS shipped to the browser, ever
 - **Zero runtime dependencies** - Uses Astro's built-in features
 - **Type-safe** - Zod schema validation for blog posts
 - **Flexible blog formats** - Simple `.md` or directory-based with assets
