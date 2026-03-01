@@ -4,7 +4,7 @@ description: "Parsing a billion rows using safe Rust with no dependencies"
 pubDate: 2024-04-30
 ---
 
-Note (2026-01-13): this post originally resided within the repository README.md, and is now migrated to the blog. The publish date is the original commit for the final version of the README.md
+Note (2026-01-13): this post originally resided in the repository README.md and was later migrated to the blog. The publish date matches the commit of the final README.md version.
 
 This repository contains my implementation in Rust for the One Billion Row Challenge (1BRC), which tests the limits of processing one billion rows from a text file. [Original challenge repository](https://github.com/gunnarmorling/1brc)
 
@@ -39,7 +39,7 @@ The task is to write a program which reads the file, calculates the min, mean, a
 ## Optimization Results
 
 Here is a table for a quick summary of the current progress of the optimizations.
-Benchmarks and profiling results shown below are run against a `measurements.txt` generated with `./create_measurements.sh 1000000000`, having 1 billion entries using a 10-core 14" Macbook M1 Max 32 GB.
+Benchmarks and profiling results shown below are run against a `measurements.txt` generated with `./create_measurements.sh 1000000000`, having 1 billion entries using a 10-core 14" MacBook M1 Max 32 GB.
 
 | Optimization                                                                                  | Time (mean ± σ):  | Improvement over previous version                         | Summary                                                                                                        |
 | --------------------------------------------------------------------------------------------- | ----------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
@@ -56,14 +56,14 @@ Benchmarks and profiling results shown below are run against a `measurements.txt
 
 ### Initial Version
 
-Nothing special really, just a quick version to get things going with a `HashMap<String,WeatherStationStats>`.
+Nothing special really, just a quick version to get things going with a `HashMap<String, WeatherStationStats>`.
 
 I spent too long getting a correct implementation of the rounding calculation to pass the original test suite.
 
 Going forward, the rounding conventions will change. The test files are generated with the initial version of this project, with only the conversion logic changed.
 
 ```sh
-~/src/github/brc-rs (master*) » ./bench.sh
+~/src/github/brc-rs (main*) » ./bench.sh
 Benchmark 1: ./target/release/brc-rs
   Time (mean ± σ):     149.403 s ±  0.452 s    [User: 144.499 s, System: 2.486 s]
   Range (min … max):   149.037 s … 150.110 s    5 runs
@@ -214,7 +214,7 @@ This section is divided in two parts; finding the data separator followed by imp
 
 Biggest share of time inside `parse_line()` is spent in [`str::find`](https://doc.rust-lang.org/std/primitive.str.html#method.find).
 This is used for separating the station name from the measurement data point.
-Using a generic "find from string"-function is fine for initial implementation and good for readability, but performance is being left on the table if we don't utilise all the knowledge we have.
+Using a generic "find from string"-function is fine for initial implementation and good for readability, but performance is being left on the table if we don't utilize all the knowledge we have.
 
 Reading the [challenge rules](https://github.com/gunnarmorling/1brc?tab=readme-ov-file#rules-and-limits), we know that the station name is a valid UTF-8 string with length varying between 1 and 100 bytes. The maximum length of the measurement data point is at most 5 characters ("-99.9") and is always pure ASCII.
 
@@ -326,7 +326,7 @@ Where this matters more is when we want to start utilizing multiple cores at onc
 With our current approach, when we spawn threads we'd start reading from the file system concurrently with each thread.
 This would put more stress on I/O, thus blocking all threads.
 
-To prevent the 13GB allocation and prepare for parallelism, it's time to ditch [`BufReader`](https://doc.rust-lang.org/std/io/struct.BufReader.html) and write our own buffered reader.
+To prevent the 13 GB allocation and prepare for parallelism, it's time to ditch [`BufReader`](https://doc.rust-lang.org/std/io/struct.BufReader.html) and write our own buffered reader.
 The concept is exactly the same as what `BufReader` does under the hood, but with us having full control of the underlying buffer and reading from the file.
 We'll create a fixed-size byte slice to act as our "buffer", where we'll read bytes directly from the file handle (or anything that implements the [`Read`](https://doc.rust-lang.org/std/io/trait.Read.html) trait).
 
