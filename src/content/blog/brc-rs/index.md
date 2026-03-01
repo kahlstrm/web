@@ -6,7 +6,7 @@ pubDate: 2024-04-30
 
 Note (2026-01-13): this post originally resided in the repository README.md and was later migrated to the blog. The publish date matches the commit of the final README.md version.
 
-This repository contains my implementation in Rust for the One Billion Row Challenge (1BRC), which tests the limits of processing one billion rows from a text file. [Original challenge repository](https://github.com/gunnarmorling/1brc)
+This article covers my implementation in Rust for the One Billion Row Challenge (1BRC), which tests the limits of processing one billion rows from a text file. The implementation lives in [my `brc-rs` repository](https://github.com/kahlstrm/brc-rs), and the challenge itself is in the [original challenge repository](https://github.com/gunnarmorling/1brc).
 
 The main idea is to explore program optimization through profiling and parallelism while trying to use only ["Safe Rust"](https://doc.rust-lang.org/nomicon/meet-safe-and-unsafe.html#meet-safe-and-unsafe). Error handling in this project is intentionally minimal, and only the happy path is considered.
 
