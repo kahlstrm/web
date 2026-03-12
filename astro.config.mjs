@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import rehypePopoverLightbox from "./src/utils/rehype-popover-lightbox.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -9,6 +10,7 @@ export default defineConfig({
     inlineStylesheets: "always",
   },
   markdown: {
+    rehypePlugins: [rehypePopoverLightbox],
     shikiConfig: {
       theme: "github-dark",
       wrap: true,
