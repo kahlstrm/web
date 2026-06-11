@@ -5,7 +5,11 @@ export interface Props {
   href: string;
   lang: string;
 }
-import colors from "../colors.json";
+import colorsData from "../colors.json";
+const colors = colorsData as unknown as Record<
+  string,
+  { color: string | null; url: string } | undefined
+>;
 const { href, title, body, lang } = Astro.props as Props;
 ---
 

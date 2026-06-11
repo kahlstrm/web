@@ -1,5 +1,9 @@
 import type { CollectionEntry } from "astro:content";
 
+export function getPostSlug(id: string): string {
+  return id.replace(/\.md$/, "").replace(/\/index$/, "");
+}
+
 /**
  * Filters blog posts based on environment.
  * In production (VERCEL_ENV=production), example posts are hidden.
@@ -11,7 +15,7 @@ export function filterBlogPosts(
   // Only filter out examples on production deployments
   const isProduction = process.env.VERCEL_ENV === "production";
   if (isProduction) {
-    return posts.filter((post) => !post.slug.includes("example"));
+    return posts.filter((post) => !post.id.includes("example"));
   }
   return posts;
 }
