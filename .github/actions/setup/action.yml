@@ -1,0 +1,19 @@
+name: Setup toolchain
+description: Install Node.js and pnpm via mise, restore the pnpm store, and install dependencies
+runs:
+  using: composite
+  steps:
+    - uses: jdx/mise-action@v2
+    - name: Resolve pnpm store path
+      id: pnpm-store
+      shell: bash
+      run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+    - name: Cache pnpm store
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.pnpm-store.outputs.path }}
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: ${{ runner.os }}-pnpm-
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile

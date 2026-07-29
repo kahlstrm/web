@@ -2,6 +2,42 @@
 
 This document describes the development workflow and checks that should be run before committing changes.
 
+## Toolchain
+
+Node.js and pnpm versions are pinned in `mise.toml` and provisioned by [mise](https://mise.jdx.dev).
+
+```bash
+mise trust     # First time in a fresh clone
+mise install   # Install the pinned Node.js and pnpm
+```
+
+Once installed, `node` and `pnpm` resolve through mise's shims — no `nvm` step is needed.
+
+### pnpm version, in three places
+
+The pnpm version is pinned in `mise.toml` (local + CI) and in `package.json`'s `packageManager`
+(Vercel). **Both must be updated together.** Regenerate the `packageManager` hash with
+`corepack use pnpm@<version>` rather than editing it by hand — corepack validates the integrity hash.
+
+Vercel only supports pnpm 6–10 natively and infers the version from `lockfileVersion`, which pnpm 11
+leaves at `9.0`. The `ENABLE_EXPERIMENTAL_COREPACK=1` environment variable is set in the Vercel
+project settings so that Vercel reads `packageManager` instead of guessing. **Do not remove it** —
+without it Vercel silently falls back to pnpm 10 while local and CI use 11. It is a project setting,
+so it lives outside this repo and won't survive recreating the Vercel project from scratch.
+
+### pnpm configuration lives in pnpm-workspace.yaml
+
+pnpm 11 reads only auth/registry settings from `.npmrc`, so all pnpm config is in
+`pnpm-workspace.yaml`. Two settings there are load-bearing:
+
+- `shamefullyHoist: true` — Astro resolves `sharp` as a hoisted transitive dep. Without this the
+  install still succeeds and the build then fails with `MissingSharp`.
+- `allowBuilds` — replaces pnpm 10's `onlyBuiltDependencies`. Without it `esbuild` and `sharp` build
+  scripts are skipped.
+
+`minimumReleaseAge: 1440` refuses packages published less than a day ago. Dependabot opens PRs
+immediately on release, so its CI may fail for the first 24 hours; re-run the job or lower the value.
+
 ## Development Workflow
 
 ### Before Committing
