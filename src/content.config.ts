@@ -4,18 +4,14 @@ import { glob } from "astro/loaders";
 import { z } from "zod";
 
 /**
- * Blog posts support two layouts that must resolve to the same URL:
+ * Blog posts support two layouts that resolve to the same URL:
  *   src/content/blog/my-post.md        -> /blog/my-post
  *   src/content/blog/my-post/index.md  -> /blog/my-post
- * The loader's default id for the directory form would be "my-post/index", so
- * strip the trailing segment to keep both forms producing a bare slug.
+ * The glob loader's default id collapses the trailing /index, so both forms
+ * yield a bare slug. Guarded by the "Blog Post Routes" test.
  */
 const blog = defineCollection({
-  loader: glob({
-    pattern: "**/*.md",
-    base: "./src/content/blog",
-    generateId: ({ entry }) => entry.replace(/(?:\/index)?\.md$/, ""),
-  }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
