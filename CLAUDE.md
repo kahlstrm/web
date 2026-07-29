@@ -11,9 +11,31 @@ mise trust     # First time in a fresh clone
 mise install   # Install the pinned Node.js and pnpm
 ```
 
-Once installed, `node` and `pnpm` resolve through mise's shims — no `nvm` or `corepack` step is needed.
-The `packageManager` field in `package.json` is kept in sync with `mise.toml` because Vercel reads it
-to pick the pnpm version for deployments; update both together.
+Once installed, `node` and `pnpm` resolve through mise's shims — no `nvm` step is needed.
+
+### pnpm version, in three places
+
+The pnpm version is pinned in `mise.toml` (local + CI) and in `package.json`'s `packageManager`
+(Vercel). **Both must be updated together.** Regenerate the `packageManager` hash with
+`corepack use pnpm@<version>` rather than editing it by hand — corepack validates the integrity hash.
+
+Vercel only supports pnpm 6–10 natively and infers the version from `lockfileVersion`, which pnpm 11
+leaves at `9.0`. Production therefore requires the `ENABLE_EXPERIMENTAL_COREPACK=1` environment
+variable in the Vercel project settings, which makes Vercel read `packageManager` instead of guessing.
+**Without it, Vercel silently builds with pnpm 10** while local and CI use 11.
+
+### pnpm configuration lives in pnpm-workspace.yaml
+
+pnpm 11 reads only auth/registry settings from `.npmrc`, so all pnpm config is in
+`pnpm-workspace.yaml`. Two settings there are load-bearing:
+
+- `shamefullyHoist: true` — Astro resolves `sharp` as a hoisted transitive dep. Without this the
+  install still succeeds and the build then fails with `MissingSharp`.
+- `allowBuilds` — replaces pnpm 10's `onlyBuiltDependencies`. Without it `esbuild` and `sharp` build
+  scripts are skipped.
+
+`minimumReleaseAge: 1440` refuses packages published less than a day ago. Dependabot opens PRs
+immediately on release, so its CI may fail for the first 24 hours; re-run the job or lower the value.
 
 ## Development Workflow
 

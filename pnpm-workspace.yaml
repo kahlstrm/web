@@ -1,3 +1,10 @@
-onlyBuiltDependencies:
-  - esbuild
-  - sharp
+# Hoist transitive deps to the root so Astro can resolve sharp. pnpm 11 no
+# longer reads non-auth settings from .npmrc, where this used to live.
+shamefullyHoist: true
+
+allowBuilds:
+  esbuild: true
+  sharp: true
+
+# pnpm 11 default, set explicitly: refuse packages published less than a day ago
+minimumReleaseAge: 1440
