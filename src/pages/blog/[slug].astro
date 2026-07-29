@@ -1,20 +1,20 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Footer from "../../components/Footer.astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import { filterBlogPosts } from "../../utils/blog";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
   const posts = filterBlogPosts(allPosts);
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post, showBlog: posts.length > 0 },
   }));
 }
 
 const { post, showBlog } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 const formattedDate = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
@@ -22,8 +22,9 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
 }).format(post.data.pubDate);
 
-// Use post.id which contains the full path (e.g., "example-post.md" or "example-with-assets/index.md")
-const sourceUrl = `https://github.com/kahlstrm/web/blob/main/src/content/blog/${post.id}`;
+// filePath is the path on disk (e.g. "example-post.md" or "example-with-assets/index.md"),
+// which post.id no longer carries now that it is the bare slug.
+const sourceUrl = `https://github.com/kahlstrm/web/blob/main/${post.filePath}`;
 
 // Structured data for SEO
 const structuredData = {
@@ -37,7 +38,7 @@ const structuredData = {
     url: `https://github.com/${post.data.author}`,
   },
   datePublished: post.data.pubDate.toISOString(),
-  url: `https://kahlstrm.xyz/blog/${post.slug}`,
+  url: `https://kahlstrm.xyz/blog/${post.id}`,
 };
 ---
 
@@ -52,11 +53,11 @@ const structuredData = {
   <main>
     <article>
       <header>
-        <h1 transition:name={`post-title-${post.slug}`}>{post.data.title}</h1>
+        <h1 transition:name={`post-title-${post.id}`}>{post.data.title}</h1>
         <div class="meta">
           <time
             datetime={post.data.pubDate.toISOString()}
-            transition:name={`post-date-${post.slug}`}>{formattedDate}</time
+            transition:name={`post-date-${post.id}`}>{formattedDate}</time
           >
           <span class="author"
             >by <a

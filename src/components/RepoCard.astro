@@ -11,10 +11,9 @@ const { href, title, body, lang } = Astro.props as Props;
 
 <li class="link-card">
   <a href={href}>
-    <h2>
-      {title}
-      <span>&rarr;</span>
-    </h2>
+    <!-- Space kept on one line: Astro's 'jsx' compressHTML strips whitespace
+         across newlines, which would butt the arrow against the title. -->
+    <h2>{title} <span>&rarr;</span></h2>
     <p>
       {body}
     </p>

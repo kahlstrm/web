@@ -47,6 +47,22 @@ async function expectRealBlogPostsOnPage(page: Page) {
   }
 }
 
+test.describe("Blog Post Routes", () => {
+  // Both `my-post.md` and `my-post/index.md` must serve /blog/my-post. The
+  // content collection's generateId collapses the directory form to a bare
+  // slug, so a regression there would silently change these URLs.
+  test("every post resolves at its bare slug", async ({ page }) => {
+    const expectedSlugs = await getExpectedBlogSlugs();
+    expect(expectedSlugs.length).toBeGreaterThan(0);
+
+    for (const slug of expectedSlugs) {
+      const response = await page.goto(`/blog/${slug}`);
+      expect(response?.status(), `/blog/${slug} should exist`).toBe(200);
+      await expect(page.locator("article h1")).toBeVisible();
+    }
+  });
+});
+
 test.describe("Blog List Coverage", () => {
   test("blog list includes real posts - desktop", async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 1080 });

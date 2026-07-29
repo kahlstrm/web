@@ -3,8 +3,9 @@
     // Enable top-level await, and other modern ESM features.
     "target": "ESNext",
     "module": "ESNext",
-    // Enable node-style module resolution, for things like npm package imports.
-    "moduleResolution": "node",
+    // Bundler resolution is required to resolve Astro's subpath exports
+    // (e.g. "astro/loaders") from their package.json "exports" map.
+    "moduleResolution": "bundler",
     // Enable JSON imports.
     "resolveJsonModule": true,
     // Enable stricter transpilation for better output.

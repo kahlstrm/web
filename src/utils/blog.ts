@@ -11,7 +11,7 @@ export function filterBlogPosts(
   // Only filter out examples on production deployments
   const isProduction = process.env.VERCEL_ENV === "production";
   if (isProduction) {
-    return posts.filter((post) => !post.slug.includes("example"));
+    return posts.filter((post) => !post.id.includes("example"));
   }
   return posts;
 }
