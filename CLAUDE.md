@@ -2,6 +2,19 @@
 
 This document describes the development workflow and checks that should be run before committing changes.
 
+## Toolchain
+
+Node.js and pnpm versions are pinned in `mise.toml` and provisioned by [mise](https://mise.jdx.dev).
+
+```bash
+mise trust     # First time in a fresh clone
+mise install   # Install the pinned Node.js and pnpm
+```
+
+Once installed, `node` and `pnpm` resolve through mise's shims — no `nvm` or `corepack` step is needed.
+The `packageManager` field in `package.json` is kept in sync with `mise.toml` because Vercel reads it
+to pick the pnpm version for deployments; update both together.
+
 ## Development Workflow
 
 ### Before Committing
