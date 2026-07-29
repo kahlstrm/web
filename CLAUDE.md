@@ -20,9 +20,10 @@ The pnpm version is pinned in `mise.toml` (local + CI) and in `package.json`'s `
 `corepack use pnpm@<version>` rather than editing it by hand — corepack validates the integrity hash.
 
 Vercel only supports pnpm 6–10 natively and infers the version from `lockfileVersion`, which pnpm 11
-leaves at `9.0`. Production therefore requires the `ENABLE_EXPERIMENTAL_COREPACK=1` environment
-variable in the Vercel project settings, which makes Vercel read `packageManager` instead of guessing.
-**Without it, Vercel silently builds with pnpm 10** while local and CI use 11.
+leaves at `9.0`. The `ENABLE_EXPERIMENTAL_COREPACK=1` environment variable is set in the Vercel
+project settings so that Vercel reads `packageManager` instead of guessing. **Do not remove it** —
+without it Vercel silently falls back to pnpm 10 while local and CI use 11. It is a project setting,
+so it lives outside this repo and won't survive recreating the Vercel project from scratch.
 
 ### pnpm configuration lives in pnpm-workspace.yaml
 
