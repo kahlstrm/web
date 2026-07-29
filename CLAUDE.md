@@ -232,12 +232,12 @@ Example posts (with "example" in the slug) are:
 ```
 src/
 ├── content/
-│   ├── blog/                      # Blog posts
-│   │   ├── simple-post.md         # Simple format (text-only)
-│   │   └── post-with-assets/      # Directory format (with images/assets)
-│   │       ├── index.md
-│   │       └── image.png
-│   └── config.ts                  # Content collection schema
+│   └── blog/                      # Blog posts
+│       ├── simple-post.md         # Simple format (text-only)
+│       └── post-with-assets/      # Directory format (with images/assets)
+│           ├── index.md
+│           └── image.png
+├── content.config.ts              # Content collection schema and loader
 ├── pages/
 │   ├── blog/
 │   │   ├── index.astro            # Blog listing page
@@ -270,13 +270,23 @@ Configured in `astro.config.mjs`:
 - Code wrapping: enabled
 - Syntax highlighting: Shiki (build-time)
 
+Astro 7 defaults to the Sätteri Markdown processor, but this project keeps the
+remark/rehype pipeline because `src/utils/rehype-popover-lightbox.mjs` is a rehype plugin.
+That requires `@astrojs/markdown-remark` to stay installed as an explicit dependency —
+removing it breaks the build with a config validation error.
+
 ### Content Schema
 
-Defined in `src/content/config.ts`:
+Defined in `src/content.config.ts`:
 - `title` (string, required)
 - `description` (string, required)
 - `pubDate` (date, required)
 - `author` (string, defaults to "kahlstrm")
+
+The collection uses the Content Layer `glob()` loader. Entry ids are bare slugs — the
+loader collapses `my-post/index.md` to `my-post`, so both blog formats share one URL
+shape. Use `post.id` for the slug and `post.filePath` for the on-disk path. The
+"Blog Post Routes" test in `tests/visual/blog-list.spec.ts` guards this.
 
 ## GitHub API Data Fetching
 
