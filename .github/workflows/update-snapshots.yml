@@ -5,7 +5,7 @@ jobs:
   update-snapshots:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Build
         run: pnpm build:offline
