@@ -272,8 +272,13 @@ Configured in `astro.config.mjs`:
 
 Astro 7 defaults to the Sätteri Markdown processor, but this project keeps the
 remark/rehype pipeline because `src/utils/rehype-popover-lightbox.mjs` is a rehype plugin.
-That requires `@astrojs/markdown-remark` to stay installed as an explicit dependency —
+It opts back in via `markdown.processor: unified({ rehypePlugins: [...] })` from
+`@astrojs/markdown-remark`, which must stay installed as an explicit dependency —
 removing it breaks the build with a config validation error.
+
+Pass remark/rehype plugins to `unified()`, not to `markdown.rehypePlugins`; the
+top-level plugin keys still work but are deprecated. `shikiConfig` stays at the
+`markdown` level.
 
 ### Content Schema
 

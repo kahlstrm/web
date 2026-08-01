@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import { unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import rehypePopoverLightbox from "./src/utils/rehype-popover-lightbox.mjs";
 
@@ -10,7 +11,8 @@ export default defineConfig({
     inlineStylesheets: "always",
   },
   markdown: {
-    rehypePlugins: [rehypePopoverLightbox],
+    // Astro 7 defaults to Sätteri; opt back into remark/rehype for the lightbox plugin.
+    processor: unified({ rehypePlugins: [rehypePopoverLightbox] }),
     shikiConfig: {
       theme: "github-dark",
       wrap: true,
