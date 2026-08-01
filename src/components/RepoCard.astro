@@ -10,9 +10,8 @@ const { href, title, body, lang } = Astro.props as Props;
 
 // `lang` comes from the GitHub API, so widen colors.json's inferred literal keys
 // to an arbitrary string lookup. Entry shape stays inferred; some have a null color.
-const languageColors: Record<
-  string,
-  (typeof colors)[keyof typeof colors] | undefined
+const languageColors: Partial<
+  Record<string, (typeof colors)[keyof typeof colors]>
 > = colors;
 const langColor = languageColors[lang]?.color;
 ---
