@@ -8,11 +8,11 @@ export interface Props {
 import colors from "../colors.json";
 const { href, title, body, lang } = Astro.props as Props;
 
-// colors.json is keyed by language name and some entries have a null color,
-// so an unknown language and a colourless one both fall back to no styling.
+// `lang` comes from the GitHub API, so widen colors.json's inferred literal keys
+// to an arbitrary string lookup. Entry shape stays inferred; some have a null color.
 const languageColors: Record<
   string,
-  { color: string | null; url: string } | undefined
+  (typeof colors)[keyof typeof colors] | undefined
 > = colors;
 const langColor = languageColors[lang]?.color;
 ---
