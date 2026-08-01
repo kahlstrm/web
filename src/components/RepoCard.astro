@@ -7,6 +7,14 @@ export interface Props {
 }
 import colors from "../colors.json";
 const { href, title, body, lang } = Astro.props as Props;
+
+// colors.json is keyed by language name and some entries have a null color,
+// so an unknown language and a colourless one both fall back to no styling.
+const languageColors: Record<
+  string,
+  { color: string | null; url: string } | undefined
+> = colors;
+const langColor = languageColors[lang]?.color;
 ---
 
 <li class="link-card">
@@ -17,9 +25,7 @@ const { href, title, body, lang } = Astro.props as Props;
     <p>
       {body}
     </p>
-    <span
-      class="lang"
-      style={colors[lang] !== undefined ? `color:${colors[lang].color}` : ""}
+    <span class="lang" style={langColor ? `color:${langColor}` : ""}
       >● {lang}</span
     >
   </a>
