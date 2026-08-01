@@ -7,6 +7,13 @@ export interface Props {
 }
 import colors from "../colors.json";
 const { href, title, body, lang } = Astro.props as Props;
+
+// `lang` comes from the GitHub API, so widen colors.json's inferred literal keys
+// to an arbitrary string lookup. Entry shape stays inferred; some have a null color.
+const languageColors: Partial<
+  Record<string, (typeof colors)[keyof typeof colors]>
+> = colors;
+const langColor = languageColors[lang]?.color;
 ---
 
 <li class="link-card">
@@ -17,9 +24,7 @@ const { href, title, body, lang } = Astro.props as Props;
     <p>
       {body}
     </p>
-    <span
-      class="lang"
-      style={colors[lang] !== undefined ? `color:${colors[lang].color}` : ""}
+    <span class="lang" style={langColor ? `color:${langColor}` : ""}
       >● {lang}</span
     >
   </a>
