@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    // Stated explicitly rather than inherited: TypeScript 6 turned this on by
+    // default, and pinning it keeps the checking level from shifting on upgrade.
+    "strict": true,
     // Enable top-level await, and other modern ESM features.
     "target": "ESNext",
     "module": "ESNext",
