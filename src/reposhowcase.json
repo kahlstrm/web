@@ -3,12 +3,13 @@
   "repos": [
     "tietokilta/web",
     "tietokilta/infra",
+    "kahlstrm/config",
     "kahlstrm/brc-rs",
     "NitorCreations/nameless-deploy-tools",
     "NitorCreations/vault",
     "kahlstrm/next-shortener",
     "kahlstrm/3D-Visualizer",
     "kahlstrm/paivabot",
-    "kahlstrm/kahlstrm-web"
+    "kahlstrm/web"
   ]
 }
