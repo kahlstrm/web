@@ -22,7 +22,7 @@
     "@astrojs/check": "^0.9.10",
     "@astrojs/markdown-remark": "^7.3.1",
     "@astrojs/sitemap": "^3.7.4",
-    "@playwright/test": "^1.62.0",
+    "@playwright/test": "^1.63.0",
     "astro": "^7.3.5",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
