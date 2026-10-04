@@ -20,14 +20,14 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
       {title}
       <span>&rarr;</span>
     </h2>
-    <p class="description">
-      {description}
-    </p>
+    <p class="description">{description}</p>
     <div class="meta">
       <time
         datetime={pubDate.toISOString()}
-        transition:name={`post-date-${slug}`}>{formattedDate}</time
+        transition:name={`post-date-${slug}`}
       >
+        {formattedDate}
+      </time>
     </div>
   </a>
 </li>

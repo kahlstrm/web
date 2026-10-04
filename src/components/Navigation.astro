@@ -10,14 +10,14 @@ const isBlog = currentPath.startsWith("/blog");
 ---
 
 <nav class="main-nav">
-  <a href="/" class:list={["nav-link", { active: isHome }]}>Home</a>
-  {
-    showBlog && (
-      <a href="/blog" class:list={["nav-link", { active: isBlog }]}>
-        Blog
-      </a>
-    )
-  }
+  <a href="/" class:list={["nav-link", { active: isHome }]}>
+    Home
+  </a>
+  {showBlog && (
+    <a href="/blog" class:list={["nav-link", { active: isBlog }]}>
+      Blog
+    </a>
+  )}
 </nav>
 
 <style>

@@ -1,6 +1,6 @@
-# Hoist transitive deps to the root so Astro can resolve sharp. pnpm 11 no
-# longer reads non-auth settings from .npmrc, where this used to live.
-shamefullyHoist: true
+# Expose Astro's image service dependency without hoisting every transitive package.
+publicHoistPattern:
+  - sharp
 
 allowBuilds:
   esbuild: true
