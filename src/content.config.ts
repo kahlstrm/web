@@ -1,7 +1,6 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
-// Imported directly rather than re-exported from astro:content, where it is deprecated.
-import { z } from "zod";
+import { z } from "astro/zod";
 
 /**
  * Blog posts support two layouts that resolve to the same URL:

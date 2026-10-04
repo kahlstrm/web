@@ -20,13 +20,13 @@ const langColor = languageColors[lang]?.color;
   <a href={href}>
     <!-- Space kept on one line: Astro's 'jsx' compressHTML strips whitespace
          across newlines, which would butt the arrow against the title. -->
-    <h2>{title} <span>&rarr;</span></h2>
-    <p>
-      {body}
-    </p>
-    <span class="lang" style={langColor ? `color:${langColor}` : ""}
-      >● {lang}</span
-    >
+    <h2>
+      {title} <span>&rarr;</span>
+    </h2>
+    <p>{body}</p>
+    <span class="lang" style={langColor ? `color:${langColor}` : ""}>
+      ● {lang}
+    </span>
   </a>
 </li>
 <style>

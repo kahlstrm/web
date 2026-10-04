@@ -57,15 +57,20 @@ const structuredData = {
         <div class="meta">
           <time
             datetime={post.data.pubDate.toISOString()}
-            transition:name={`post-date-${post.id}`}>{formattedDate}</time
+            transition:name={`post-date-${post.id}`}
           >
-          <span class="author"
-            >by <a
+            {formattedDate}
+          </time>
+          <span class="author">
+            by{" "}
+            <a
               href={`https://github.com/${post.data.author}`}
               target="_blank"
-              rel="noopener noreferrer">@{post.data.author}</a
-            ></span
-          >
+              rel="noopener noreferrer"
+            >
+              @{post.data.author}
+            </a>
+          </span>
         </div>
       </header>
 
