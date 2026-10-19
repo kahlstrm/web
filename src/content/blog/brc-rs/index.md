@@ -451,6 +451,9 @@ The other change is a second dataset. The original challenge also had a [10K var
 Its 10,000 table slots, 640 KB, no longer fit in a core's L2 cache, and around 15% of its names are longer than 16 bytes, which makes it a good way to catch optimizations that only work on short names.
 Every change from here on was measured on both: the default 1 billion rows, and 200 million rows over 10,000 stations.
 
+Many of the tricks below come from the Java entries of the original challenge.
+If you'd rather watch than read, Roy van Rijn's GOTO 2024 talk [Java, How Fast Can You Parse 1 Billion Rows of Weather Data?](https://www.youtube.com/watch?v=EFXxXFHpS0M) is a good tour of how those entries got so fast.
+
 | Optimization                                                            | 1B rows (mean ± σ)                                             | 10K stations (mean ± σ)                                        | Summary                                                                            |
 | ----------------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | [End of Part 1](#part-2-revisiting-it-in-2026)                          | 3.300 s ± 0.022                                                | 1.211 s ± 0.016                                                | Part 1's final version, re-measured on the new machine                             |
