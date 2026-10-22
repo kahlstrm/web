@@ -2,6 +2,7 @@
 title: "One Billion Row Challenge in Rust"
 description: "Parsing a billion rows using safe Rust with no dependencies"
 pubDate: 2024-04-30
+updatedDate: 2026-10-19
 ---
 
 Note (2026-01-13): this post originally resided in the repository README.md and was later migrated to the blog. The publish date matches the commit of the final README.md version.

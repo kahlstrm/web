@@ -205,6 +205,7 @@ Both formats produce the same URL: `/blog/my-post`
 title: "Post Title"
 description: "Brief description for preview"
 pubDate: 2026-01-10
+updatedDate: 2026-02-01 # Optional, set when substantially revising a post
 author: kahlstrm        # Optional, defaults to "kahlstrm"
 ---
 
@@ -286,6 +287,8 @@ Defined in `src/content.config.ts`:
 - `title` (string, required)
 - `description` (string, required)
 - `pubDate` (date, required)
+- `updatedDate` (date, optional) — shown on the post page and emitted as `dateModified`;
+  `pubDate` still drives sorting
 - `author` (string, defaults to "kahlstrm")
 
 The collection uses the Content Layer `glob()` loader. Entry ids are bare slugs — the

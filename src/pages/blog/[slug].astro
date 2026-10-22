@@ -16,11 +16,12 @@ export async function getStaticPaths() {
 const { post, showBlog } = Astro.props;
 const { Content } = await render(post);
 
-const formattedDate = new Intl.DateTimeFormat("en-US", {
+const { pubDate, updatedDate } = post.data;
+const formatDate = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "long",
   day: "numeric",
-}).format(post.data.pubDate);
+}).format;
 
 // filePath is the path on disk (e.g. "example-post.md" or "example-with-assets/index.md"),
 // which post.id no longer carries now that it is the bare slug.
@@ -37,7 +38,8 @@ const structuredData = {
     name: post.data.author,
     url: `https://github.com/${post.data.author}`,
   },
-  datePublished: post.data.pubDate.toISOString(),
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
   url: `https://kahlstrm.xyz/blog/${post.id}`,
 };
 ---
@@ -46,7 +48,8 @@ const structuredData = {
   title={`${post.data.title} - Kalle Ahlström`}
   description={post.data.description}
   type="article"
-  publishedTime={post.data.pubDate.toISOString()}
+  publishedTime={pubDate.toISOString()}
+  modifiedTime={updatedDate?.toISOString()}
   author={post.data.author}
   showBlog={showBlog}
 >
@@ -56,11 +59,19 @@ const structuredData = {
         <h1 transition:name={`post-title-${post.id}`}>{post.data.title}</h1>
         <div class="meta">
           <time
-            datetime={post.data.pubDate.toISOString()}
+            datetime={pubDate.toISOString()}
             transition:name={`post-date-${post.id}`}
           >
-            {formattedDate}
+            {formatDate(pubDate)}
           </time>
+          {updatedDate && (
+            <span class="updated">
+              updated{" "}
+              <time datetime={updatedDate.toISOString()}>
+                {formatDate(updatedDate)}
+              </time>
+            </span>
+          )}
           <span class="author">
             by{" "}
             <a
