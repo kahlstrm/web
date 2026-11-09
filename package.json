@@ -19,13 +19,13 @@
     "test:visual:debug": "playwright test tests/visual --debug"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@astrojs/markdown-remark": "^7.3.1",
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/markdown-remark": "^7.3.4",
     "@astrojs/sitemap": "^3.7.4",
     "@playwright/test": "^1.63.0",
     "astro": "^7.3.5",
-    "prettier": "^3.9.9",
-    "prettier-plugin-astro": "^1.1.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.1",
     "typescript": "^6.0.3"
   },
   "packageManager": "pnpm@12.9.1+sha512.06b055fff5cd20dc12781de173ced3310ce0951bf2ec620211a16045d5444d5c93a663210764ef29a653a610459ba0368f0e74f84d80c54723cf95aae7bc0d6d"
